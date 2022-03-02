@@ -13,6 +13,20 @@ git push -u origin main --> envia para o repositorio remoto e cria a branch main
 git pull --> download dos arquivos do repositorio remoto
 git pull origin main --> download dos arquivos do repositorio remoto da branch main
 
+
+*merges
+Accept Current Change --> Aceita as alterações atuais
+Accept Incoming Change --> Aceita a mudança que está chegando do repositorio
+Accept Both Change --> Aceitar as 2 mudanças
+Compare Changes --> Comparar as mudanças
+
+
+*branchs
+git branch --> visualiza as branchs locais
+git checkout main --> troca de branch (neste exemplo para a branch main)
+git checkout -b feacture1 --> cria um nova branch localmente
+git merge feacture1 --> faz um merge da branch feacture1 com a branch main
+git branch -d feacture1 --> delete branch (neste exemplo delete a branch feacture1)
 *********************************************************************************
 
 
