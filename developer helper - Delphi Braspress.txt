@@ -1,0 +1,927 @@
+Servidores Acesso
+mstsc /v:BTu-DANFE /admin
+
+\\btu-citrix03\Tool\Braspress
+
+
+----regras especificas - teste----------------------------------------------------
+id clientes
+1225 - banco do brasil
+1326769 -  a tavares
+----------------------------------------------------------------------------------
+
+tooltst - senha
+desenv2013
+ 
+
+CNPJS
+4267974187 - CLIENTE COM FRETE COMBINADO
+
+cpf
+7770025000113
+
+
+teste manaus
+rem 34512327000164
+dest 84504174000181
+
+
+
+testes RRI
+58633045
+
+
+
+CIF = REM
+FOB = DEST
+consignatario = um terceiro
+
+
+motorista
+adonias
+
+
+
+AUTOMATIZADA
+0 - Não tem nenhum tipo de "sorter" 
+1 - Trabalha com o Sorter igual filial SAO
+2 - Trabalha com o Esteira
+
+motorista
+MICHEL MAYCON OLIVEIRA DE
+
+
+
+
+
+codigo da danfe
+1234567890123456789012345600xxxxxx0000000001
+12345678901234567890123456001000000000000001
+
+
+cepS
+59077000 - natal
+03189080 - RICARDO
+69152140 - MANAIUS
+
+Inscricao Estadual VALIDA
+115301624112
+132104989 - MT
+
+cnpj
+41434093000140 - tavares
+31588223850 - ricardo alves
+32087213828 - alvaro
+
+
+----CADASTRO PADRÃO---------------------------------------------------------------------
+  combo consulta  
+  // ** Tag = 1 - Combo **
+  // ** Tag = 2 - Grid **
+  // ** Tag = 3 - Combo/Grid **
+  
+  
+  EVENTO onClose do form
+  Action := Cafree;
+  form := Nil;
+  
+  Abrir query odsPadrao no show
+----------------------------------------------------------------------------------------
+
+
+----Edit somente com numero--------------------------------------------------------------
+no evento keypress
+
+  if not (Key in['0'..'9',Chr(8),Chr(22),Chr(3)]) then
+    Key:= #0;
+
+-----------------------------------------------------------------------------------------	
+
+
+----grants------------------------------------------------------------------------------
+tool
+select,insert,update,delete,alter
+
+grant select, insert, update, delete, alter on CLI_REGRAS_ESPECIF to TOOL;
+GRANT EXECUTE ON sp_cliente_aereo_validar TO tool;
+grant ALL on SEQ_ID_EMI_PAGTO_AGREGADO to TOOL;
+----------------------------------------------------------------------------------------
+
+----SEQUENCE----------------------------------------------------------------------------
+-- Create sequence 
+create sequence SEQ_cli_reg_esp_regiao;
+
+
+create or replace trigger TRG_FON_CADASTRO_ID
+  before insert on fon_cadastro  
+  for each row
+declare
+
+begin
+
+ 
+ SELECT TOOLDBA.SEQ_FON_CAD.NEXTVAL
+ INTO :new.ID_FON_CADASTRO
+ FROM DUAL;
+ 
+end TRG_FON_CADASTRO_ID;
+--------------------------------------------------------------------------------------------
+
+--SINOMIMOS---------------------------------------------------------------------------------
+
+create public synonym OOBJ_MDFE_ENVIO FOR tooldba.OOBJ_MDFE_ENVIO;
+--------------------------------------------------------------------------------------------
+
+
+
+----FILTRO DATA-----------------------------------------------------------------------------
+ AND A.ACD_DATA BETWEEN   TO_DATE(:DATAINI, 'DD/MM/YYYY HH24:MI:SS') AND
+                          TO_DATE(:DATAFIM, 'DD/MM/YYYY HH24:MI:SS')
+--------------------------------------------------------------------------------------------
+
+						  
+
+----clob------------------------------------------------------------------------------------
+deixar o tfield como widememo
+colocar o componente cxdbRichEdit
+
+
+
+
+
+
+
+
+
+----query DataSet----------------------------------------------------------------------------
+uses Oracle
+
+  with TOracleDataSet.Create(nil)do
+  try
+    Session := Dm.SessionMain;
+    SQL.Clear;
+    SQL.Add('DELETE');
+    SQL.Add('FROM TOOLDBA.CLI_REG_ESP_CIDADE');
+    SQL.Add('WHERE ID_CLI_REGRAS_ESPECIF = :ID_CLI_REGRAS_ESPECIF');
+    DeclareAndSet('ID_CLI_REGRAS_ESPECIF',otInteger,odsPadraoID_CLI_REGRAS_ESPECIF.AsInteger);
+    Open;
+  finally
+    Free;
+  end;
+  
+  
+  with TOracleDataSet.Create(Application)do
+  try
+    Close;
+    Session := OracleSession;
+    SQL.Clear;
+    SQL.Add('SELECT tooldba.FN_MANIFESTO_PROX_DESTINO(:pIdManifesto) as Filial FROM DUAL');
+    DeclareVariable('pIdManifesto',otInteger);
+    SetVariable('pIdManifesto',IdManifesto);
+    Open;
+    Result := FieldByName('Filial').AsInteger;
+  finally
+    Free;
+  end;  
+  
+--------------------------------------------------------------------------------------------
+
+
+  AND A.FT_FAT_DTPAGTO BETWEEN TO_DATE(:P_DATAINI, 'DD/MM/RRRR') AND
+       TO_DATE(:P_DATAFIM || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS')
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+----GRID MASTER DETAIL--------------------------------------------------------------------------
+CRIAR UM SUB LEVEL
+CRIAR UM cxGridDBTableView associado ao level
+
+setar as propriedades desta cxGridDBTableView
+DetailKeyFieldNames
+MasterKeyFieldNames
+
+nao precisa fz o master detail no dataset
+-------------------------------------------------------------------------------------------------
+
+
+
+----procedure-------------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE SP_CLIENTE_AEREO_VALIDAR(
+                                                      pIdFilialOrigem IN EMP_FILIAL.ID_FILIAL%TYPE,
+                                                      pIdFilialDestino IN EMP_FILIAL.ID_FILIAL%TYPE,
+                                                      pModal IN TAR_MODAL.ID_TAR_MODAL%TYPE,       
+                                                      pTipoFrete IN NUMBER,
+                                                      
+                                                      
+                                                      MSGOK OUT VARCHAR2
+                                                     )IS
+                                                     
+  varteste VARCHAR2(50);
+  varteste2 NUMBER;
+  
+BEGIN
+  MSGOK := 'OK';
+  
+END SP_CLIENTE_aEREO_VALIDAR;               
+--------------------------------------------------------------------------------------------------
+
+
+----EXEMPLO NO DATA FOUND-------------------------------------------------------------------------------------
+  BEGIN
+    SELECT FCALC.ID_FILIAL_CALCULO
+      INTO RESULT
+    FROM EMI_FILIAL_CALCULO FCALC
+     WHERE FCALC.ID_FILIAL_EMISSAO = P_ID_FILIAL_EMISSAO
+       AND FCALC.ID_TAR_MODAL = P_MODAL;
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RESULT := 0;
+  END;
+ --------------------------------------------------------------------------------------------------
+ 
+ 
+ 
+ ----AUDITORIA-----------------------------------------------------------------------------------------
+ 
+ CREATE OR REPLACE TRIGGER TRG_AUDIT#EMI_MINUTA_CONHEC
+  BEFORE UPDATE OR DELETE ON EMI_MINUTA_CONHEC
+  FOR EACH ROW
+DECLARE
+  TIPO  CHAR(1);
+  COLPK VARCHAR2(50);
+  VALPK VARCHAR2(100);
+BEGIN
+  COLPK := NULL;
+  VALPK := NULL;
+
+  IF UPDATING THEN
+    TIPO := 'U';
+  ELSIF DELETING THEN
+    TIPO := 'D';
+  END IF;
+
+  VALPK := :OLD.ID_EMI_MINUTA;
+  COLPK := 'ID_EMI_MINUTA';
+
+  PCK_AUDIT_GERAL.CHECK_VAL('EMI_MINUTA_CONHEC','ID_EMI_CONHECIMENTO',:NEW.ID_EMI_CONHECIMENTO,:OLD.ID_EMI_CONHECIMENTO,TIPO,COLPK,VALPK);
+
+END TRG_AUDIT#EMI_MINUTA_CONHEC;
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+----GERAR VERSÃO-------------------------------------------------------------------------------------------------------------------------------
+
+A atividade tem q chegar para o desenvolvedor como "Gerando Pacote"
+O desenvolvedor deve altear o status para "Liberado Produção" e alterar o usuário para "Subir Versão"
+
+string para suporte:
+Módulo(s) abaixo atualizado(s) no FTP para gerar versão:
+
+RodoAereo_168.zip
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+rotinas no bd - manifesto
+SP_INSERE_CONHEC_MANIF_HIST
+FN_CONHEC_EMBARQUE_RODOAEREO
+FN_CONHEC_EMBARQUE_AEREO
+
+
+
+----mascaras--------------------------------------------------------------------------------------------------------------------------------------
+dev express
+
+somente numeros
+componente: MaskEdit
+
+propriedade MaskKind:emkRegExprEx
+propriedade EditMask:[0-9]+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----campo selecionado no cds-----------------------------------------------------------------------------------------------------------------------
+  arquitetura
+  query --> dsp-->cds-->ds
+  
+  deixar os tfields do campo na query e no cds na propriedade ProviderFlgs deixar []
+  
+  colocar no SQL '' as Selecionado
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+	
+
+----Estados de um DataSet-----------------------------------------------------------------------------------------------------------------------
+
+dsInactive
+O Dataset está fechado. Seus dados não estão disponíveis (não podem ser lidos nem alterados).
+
+dsBrowse
+O Dataset está aberto. Seus dados podem ser visualizados, mas não podem ser alterados. Este é o estado padrão de um DataSet.
+
+dsEdit
+O DataSet está aberto. O registro atual pode ser modificado.
+
+dsInsert
+O DataSet está aberto. Um novo registro acaba de ser inserido.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+----verificar dataset aberto---------------------------------------------------------------------------------------------------------------------
+function TfrmEstornarChequeDevolvido.verificarDataSetAtivoComRegistros(
+  DataSet: TDataSet): boolean;
+begin
+  result:= False;
+
+  if (DataSet.State in [dsInactive])Then
+    Exit;
+
+  if (DataSet.RecordCount <= 0 )Then
+    Exit;
+
+  result:= True;   
+end;
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+---Pegar o valor de um campo agregado------------------------------------------------------------------------------------------------------------
+  Result:=0;
+
+  if not (DMReversaoFaturasPagas.cdsFaturasEmAberto.State in [dsBrowse,dsEdit,dsInsert]) Then
+    Exit;
+
+  if DMReversaoFaturasPagas.cdsFaturasEmAbertoTotalDescontoReembolso.IsNull Then
+    Exit;
+
+  Result:= StrToFloat(VarToStr(DMReversaoFaturasPagas.cdsFaturasEmAbertoTotalDescontoReembolso.Value));
+------------------------------------------------------------------------------------------------------------------------------------------------  
+
+----formatações oracle
+ TO_CHAR(COL_ROTEI_DATA,'YYYY')AS ANO,
+ TO_CHAR(COL_ROTEI_DATA,'MM')AS MES,
+			 
+			 
+AM   - AM ou PM
+CC   - Século
+D    - Dia da semana (1-7)
+DAY  - Dia da semana ('SUNDAY')
+DD   - Dia do mês (1-31)
+DDD  - Dia do ano
+DY   - Dia da semana abreviado ('SUN')
+FM   - Tira os blanks ou Zeros da esquerda
+HH   - Hora do dia (0-12)
+HH24 - Hora do dia (0-24)
+MI   - Minutos da Hora
+MM   - Mês com 2 dígitos
+MON  - Mês abreviado ('NOV')
+MONTH- Mês por extenso ('NOVEMBER')
+PM   - AM ou PM
+RR   - Ano com 2 dígitos - especial
+RRRR - Ano com 4 dígitos
+SS   - Segundos do minuto(0 - 59)
+SSSSS- Segundos do dia
+W    - Semana do Mês
+WW   - Semana do Ano
+YEAR - Ano por extenso
+YY   - Ano com 2 dígitos
+YYYY - Ano com 4 dígitos
+-------------------------------------------------
+
+
+----select data-----------------------------------------------------------------------------------------
+  AND mr.AER_AWB_DATA BETWEEN          
+
+           TO_DATE(:DT_INI || ' 00:00:00', 'DD/MM/RRRR HH24:MI:SS') AND
+           TO_DATE(:DT_FIM || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS')
+		   
+		   
+AND C.EMI_CONH_DTHORAIMPRESSAO BETWEEN  TO_DATE(:DT_INI,'DD/MM/RRRR') AND TO_DATE(:DT_FIM,'DD/MM/RRRR')
+		   
+---------------------------------------------------------------------------------------------------------
+
+
+
+----create table------------------------------------------------------------------------------------------
+CREATE TABLE COM_CARTEIRA_CLIENTE_TMP AS SELECT * FROM COM_CARTEIRA_CLIENTE
+----------------------------------------------------------------------------------------------------------
+
+
+----EXPORTA CEP-------------------------------------------------------------------------------------------
+SERVIDOR: bti-projetos
+usuario: suporteti
+senha: Suport3
+----------------------------------------------------------------------------------------------------------
+
+
+----find key composto-------------------------------------------------------------------------------------
+If (cdsCepsExportados.FindKey([ODS_CEPSCEP_INI.AsFloat,ODS_CEPSCEP_FIM.AsFloat])) then
+
+setar a propriedade: IndexFieldNames para CEP_INI;CEP_FIM
+----------------------------------------------------------------------------------------------------------
+  
+  ----locate composto
+  DM.DM_DataBase.Filial.Locate('ID_EMPRESA;ID_FILIAL', VarArrayOf([Tb_UsuariosID_EMPRESA_DEFAULT.AsFloat,Tb_UsuariosID_FILIAL_DEFAULT.AsFloat]), []);
+
+
+----USUARIOS---------------------------------------------------------------------------------------------
+
+**LOGIN URA
+	teste
+	braspress
+	3286
+	
+**USUARIO URA
+	TIARA-SAO
+	PT160995
+----------------------------------------------------------------------------------------------------------
+
+
+----SELECT DATA HORA--------------------------------------------------------------------------------------
+select * from col_coleta co
+where co.id_empresa_filial = 915
+and co.col_data_coleta = '14/12/2011'
+and co.col_coleta_remetente like '%MARIA DE CHITA%'
+AND CO.COL_DATA_CADASTRO = to_date('13/12/2011 19:39:16','dd/mm/yyyy hh24:mi:ss') 
+-----------------------------------------------------------------------------------------------------------
+
+
+
+----grid
+
+delphi 6 
+acessar valor da linha selecionada
+dxDBGrid_ItensRc.FocusedNode.Values[4]
+
+
+
+----Exemplo COMPOUND TRIGGER / Trigger Composta-------------------------------------------------------------------
+http://glufke.net/oracle/viewtopic.php?f=2&t=5125
+------------------------------------------------------------------------------------------------------------------
+
+
+----PRAGMA AUTONOMOUS_TRANSACTION-----------------------------------------------------------------------------
+CREATE TRIGGER anniversary_trigger
+   BEFORE INSERT ON employees FOR EACH ROW
+DECLARE
+   PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+   INSERT INTO anniversaries VALUES(TRUNC(:new.hire_date));
+-- Only commits the preceding INSERT, not the INSERT that fired
+-- the trigger.
+   COMMIT;
+   EXCEPTION
+-- If someone else was hired on the same day, we get an exception
+-- because of duplicate values. That's OK, no action needed.
+      WHEN OTHERS THEN NULL;
+END;
+--------------------------------------------------------------------------------------------------------------
+
+
+----REGRAS APISUL----------------------------------------------------------------------------------------------
+CONHECIMENTOS CANCELADOS
+UF ORIGEM E DESTINO FICAM COM 99
+EXEMPLO TXT = 99 99 
+
+UF ORIGEM = UD DESTINO
+FICA IMPRESSO COM UF ORIGEM E DESTINO UR
+EXEMPLO TXT = SP UR
+
+http://171.100.11.7/jira/browse/DTP-2267
+http://171.100.11.7/jira/browse/DTP-2585
+--------------------------------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------------------
+  --DBMS_SESSION.SET_NLS('NLS_DATE_FORMAT', 'DD/MM/RRRR');
+   
+  --ESTE AQUI É MELHOR DO QUE O DE CIMA
+  EXECUTE IMMEDIATE 'alter session set nls_date_format = ''DD/MM/RRRR''';
+  COMMIT;
+  
+  
+ procedure set_nls(param varchar2, value varchar2);
+  --  Equivalent to SQL "ALTER SESSION SET <nls_parameter> = <value>"
+  --  Note:
+  --   Using "execute immediate 'alter session'" has better performance
+  --   than using dbms_session.set_nls. Further, when setting multiple
+  --   parameters, EXEC IMMEDIATE allows user to set all of them in one
+  --   statement, which is much more efficient than calling
+  --   dbms_session.set_nls in multiple statements.
+  --  Input arguments:
+  --    param
+  --      The NLS parameter. The parameter name must begin with 'NLS'.
+  --    value
+  --      The value to set the parameter to.  If the parameter is a
+  --      text literal then it will need embedded single-quotes.  For
+  --      example "set_nls('nls_date_format','''DD-MON-YY''')"
+  
+  
+https://forums.oracle.com/forums/thread.jspa?threadID=369529
+Alter session command on start-up 
+
+
+I decided this problem with the creation of trigger (sys user), as below:
+
+CREATE OR REPLACE
+TRIGGER ON_CONNECT AFTER LOGON ON DATABASE 
+BEGIN
+EXECUTE IMMEDIATE 'alter session set time_zone = local';
+EXECUTE IMMEDIATE 'alter session set nls_date_format = ''YYYY-MM-DD''';
+EXECUTE IMMEDIATE 'alter session set nls_timestamp_format = ''YYYY-MM-DD HH24:MI:SS.FF''';
+EXECUTE IMMEDIATE 'alter session set nls_timestamp_tz_format = ''YYYY-MM-DD HH24:MI:SS.FF TZH:TZM''';
+END;
+
+The parameters are displayed in accordance with my necessities, but you can modify in accordance with the your necessities.
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+-----download fatura-------------------------------------------------------------------------------------------
+
+parametros webservice
+<root><idfatura>16001271</idfatura></root>
+
+http://localhost/portalwebservice/portalwebservice.asmx
+http://localhost/portalwsteste/portalwebservice.asmx
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----inserir ID num combo-------------------------------------------------------------------------------------------
+
+procedure TfrmReversaoFaturasPagas.SetFormasReembolso;	
+var
+  Descricao:string;
+  Id:integer;
+begin
+  with DMReversaoFaturasPagas.odsFormasReembolso do
+  begin
+    First;
+
+    cmbFormaReembolso.Items.Clear;
+    while not Eof do
+    begin
+      ID:= FieldByName('FT_SOL_TP_APLIC_ID').AsInteger;
+      Descricao:= FieldByName('FT_SOL_TP_APLIC_DESCR').AsString;
+      cmbFormaReembolso.Items.AddObject( Descricao, TObject(ID));
+      Next;
+    end;
+   end;
+  cmbFormaReembolso.ItemIndex:=0;
+end;
+
+
+
+function TfrmReversaoFaturasPagas.GetFormaReembolso: Integer;
+begin
+  Result:= Integer( cmbFormaReembolso.Items.Objects[cmbFormaReembolso.ItemIndex ] );
+end;
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----insert com retorno do ID--------------------------------------------------------------------------------------------
+
+BEGIN
+  INSERT INTO TOOLDBA.CRM_AGENDA_NEW
+    (ID_CRM_AGENDA_NEW,
+     CAN_CATEGORIA,
+     CAN_TIPO_CONTATO,
+     ID_CLI_BASICO,
+     CAN_DATA,
+     CAN_PAUTA,
+     CAN_STATUS,
+     CAN_PROGRAMADA,
+     CAN_PROC_VENDA,
+     CAN_MODAL_PROC_VENDA,
+     CAN_USU_AGENDADOR,
+     CAN_USU_DONO,
+     CAN_DATA_LANCAMENTO,
+     CAN_VISITA_CONTATO)
+  VALUES
+    (0,
+     :P_CAN_CATEGORIA,
+     :P_CAN_TIPO_CONTATO,
+     :P_ID_CLI_BASICO,
+     :P_CAN_DATA,
+     :P_CAN_PAUTA,
+     :P_CAN_STATUS,
+     :P_CAN_PROGRAMADA,
+     :P_CAN_PROC_VENDA,
+     :P_CAN_MODAL_PROC_VENDA,
+     :P_CAN_USU_AGENDADOR,
+     :P_CAN_USU_DONO,
+     :P_CAN_DATA_LANCAMENTO,
+     :P_CAN_VISITA_CONTATO);
+
+  RETURNING ID_CRM_AGENDA_NEW
+    INTO :P_ID_RETURN;
+
+END;
+------------------------------------------------------------------------------------------------------------------
+
+
+
+----Formatações---------------------------------------------------------------------------------------------------
+
+FormatFloat('#,0.00',fValor);
+------------------------------------------------------------------------------------------------------------------
+
+
+Exceções Delphi
+      if not (E  is EAbort) Then
+      begin
+        MessageDlg('Erro ao gerar Desconto em Faturas' + #13 + e.Message, mtError, [mbOK], 0);
+        Abort;
+      end;
+
+
+
+	    //Centralizando form
+  Left := (GetSystemMetrics(SM_CXSCREEN) - Width) div 2;
+  Top := (GetSystemMetrics(SM_CYSCREEN) - Height) div 2;
+  
+  
+**Testes de fatura do site  
+CNPJ: 54625819002893
+Senha: 1234
+Fatura: 1303020102
+Fatura ID: 20183700
+
+
+Enum
+http://drgarcia1986.wordpress.com/2011/12/07/tipos-enumerados-em-delphi/
+exemplo:
+  Type
+      TCliente=(Luxotica, AMZ);
+	  
+fCliente: TCliente;	  
+
+
+Criar outro construtor
+constructor Create(AOwner: TComponent; Cliente: TCliente) ; overload;
+
+
+
+
+
+
+
+
+exemplos de classe delphi
+type
+  TImportacaoPreFatura = class
+  private
+
+  public
+    Arquivo: string;
+    ArquivoJaImportado: Boolean;
+    Lote: TCRBTxtFile;
+    procedure AbrirArquivo; virtual; abstract;
+    procedure ProcessarArquivo; virtual; abstract;
+    function GetQtdeRegistros: Integer;
+  end;
+
+  TImportacaoLuxotica = class(TImportacaoPreFatura)
+  public
+    procedure AbrirArquivo; override;
+    procedure ProcessarArquivo; override;
+  end;
+
+  TImportacaoAMZ = class(TImportacaoPreFatura)
+  public
+    procedure AbrirArquivo; override;
+    procedure ProcessarArquivo; override;
+  end;
+  
+  
+  
+--login EBS
+(10:20) romulo: btuinterface
+(10:20) alvaro: vlw
+(10:20) romulo: mas da pra usar o dblink do rac
+(10:21) alvaro: e msm
+(10:21) romulo: @INTEBS
+  
+  
+senha masquinas novas
+147852
+
+
+EXEMPLO DE CASE NO SQL
+   CASE
+     WHEN T.COL_VEIPROP_CGC IS NOT NULL THEN
+       T.COL_VEIPROP_CGC
+      ELSE
+       T.COL_VEIPROP_CPF 
+   END AS FORNECEDOR_CNPJ_CPF,
+   
+   
+   
+   
+Historico PL SQL
+ctr + e --> no SQL Window   
+
+
+(09:02) carlos: Se quiser incluir no seu TNS o acesso ao bando de testes do sorter, os dados são:DBSORTER =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 171.100.10.189)(PORT = 1531)))
+    (CONNECT_DATA =
+    (SERVER = DEDICATED)
+    (SERVICE_NAME = DBSORTER)))
+	
+	
+	
+atualizar indices do oracle	
+DBMS_STATS.gather_TABLE_stats('TOOLDBA', 'CRM_CONTROLE_TABELA', CASCADE =>  TRUE,method_opt => 'FOR ALL INDEXED COLUMNS');	
+
+
+ SELECT REGEXP_REPLACE(CNPJ_CPF, '[^0-9]+', '') AS CNPJ_CPF 
+ 
+ 
+Tipos de Endereço de Cliente
+  /* TIPOS DE ENDERECO
+   0 = COMERCIAL
+   2 = COBRANCA 
+  */ 
+  
+Iniciais dos Arquivos de importação - PagRec
+CB - Lote de Retorno Bradesco
+DD - DI Bradesco
+IED - DI Banco do Brasil
+
+
+
+***Exportar Grid da DevExpress
+
+  try
+    Wait(self,'Exportando Informações');
+    Salvar.FileName := Self.Caption + '_' + FormatDateTime('ddmmyyhhnn', Now);
+    Salvar.Filter := 'Excel files (*.xls)|*.XLS';
+
+    if Salvar.Execute then
+    begin
+      Application.ProcessMessages;
+      ExportGridToExcel(Salvar.FileName, cxGrid2,True, True);
+      Msg('Arquivo Gerado com sucesso!');
+      edtData.SetFocus;
+      fdqBusca.First;
+    end;
+
+  finally
+    WaitEnd(self);
+  end;
+
+  
+  
+  
+****Imprimir Grid da Dev
+Deve colocar o componente dxComponentPrinter1
+Neste componente colocamos um link para a Grid
+e o codigo    dxComponentPrinter1Link1.Preview(true); para imprimir  
+
+
+***JOINS Cadastro Padrão
+SELECT
+GUIAS_GRUPO_LOTE.*,
+US.login AS USUARIO_IMPORTACAO,
+TP.descricao  AS TIPO_SERVICO
+FROM GUIAS_GRUPO_LOTE
+LEFT OUTER JOIN usuario US ON (US.id_usuario = GUIAS_GRUPO_LOTE.id_usuario)
+LEFT OUTER JOIN tipo_servico TP ON (TP.id_tipo_servico = GUIAS_GRUPO_LOTE.id_tipo_servico)
+WHERE 1=1
+
+NAO COLOCAR ALIAS NA TABELA PRINCIPAL
+
+
+***imagens*************************************************************************
+Utilizar o programa Fotosizer para redimensionar
+Splash
+Medidas
+426 X 320
+470 X 320
+640 X 480
+960 X 720
+
+
+Ico
+36 X 36
+48 X 48
+72 X 72
+96 X 96
+144 X 144
+************************************************************************************
+
+FTPs
+
+Coleta Reversa
+ftp://ftp.braspress.com.br
+ftp://ftp.braspress.com.br/coletabosh/retorno/
+
+EDI
+senha: qazwsx
+
+
+
+Integração cotação online
+
+Todos os parametros tem que ser passados via GET separados por virgula, conforme o exemplo abaixo:
+
+http://www.braspress.com.br/cotacaoXml?param=72639040000199,2,07020280,07020280,72639040000199,72639040000199,2,10,50,10,1
+
+
+Descrição de cada parametro.
+
+PARAM - 1 = Cnpj do solicitante.
+PARAM - 2 = ID da empresa de origem
+PARAM - 3 = Cep de origem
+PARAM - 4 = Cep de destino
+PARAM - 5 = Cnpj Remetente
+PARAM - 6 = Cnpj Destinatario
+PARAM - 7 = Id Tipo frente
+PARAM - 8 = Peso;
+PARAM - 9 = Valor da NF;
+PARAM - 10 = Volumes
+PARAM - 11 = Id do tipo modal
+
+
+
+
+
+
+
+
+
+   {$IF CompilerVersion >= 17.0}
+      FormatSettings.DecimalSeparator:= ',';
+    {$ELSE}
+      DecimalSeparator := ',';
+    {$ENDIF}
+
+
+
+erro runtime cds bpl
+Senhores, estava com o mesmo problema, para acessar o componente ClientDataset no delphi xe6, exibia um mensagem de acesso violado ... "dsnap200.bpl', em tempo de desenvolvimento e em tempo de execução.
+
+Tempo de desenvolvimento:
+Na pasta "C:\Program Files\Embarcadero\Studio\14.0\Redist\win32\" existe um arquivo midas.dll. se o path da delphi não for esse localize o arquivo "midas.dll" no sistema, se aparecer varias de preferencia a "midas" existente na instalação do delphi.
+
+Apos localizar o arquivo, copie para a pasta system32 do windows, se existir um arquivo "midas.dll" na pasta system32 renome o arquivo existente (backup).
+
+Depois do arquivo "midas.dll" copiado na system32, devemos registra-la; no executar do windows digite: "regsvr32 /s Midas.Dll" sem as aspas. Feche a IDE do delphi, caso em aberta e inicialize novamente a sua IDE do delphi. Permitindo assim abrir, adicionar field ou criardataset em tempo de desenvolvimento.
+
+
+Tempo de execução:
+
+Basta declarar na uses do projeto a unidade "MidasLib".
+
+
+https://www.devmedia.com.br/forum/erro-ao-vincular-clientdataset-ao-datasetprovider-xe6/498947
+
+
+
+manualdock
+https://stackoverflow.com/questions/21950985/manage-an-dynamic-array-of-forms-inside-a-page-control
+
+
+
+firebird sqls
+http://theclub.com.br/Restrito/Revistas/201004/indo1004.aspx
+
+https://gist.github.com/martinusso/8935270

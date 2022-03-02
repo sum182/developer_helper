@@ -1,0 +1,256 @@
+
+****links*******************************************************************************************************************
+http://www.blog.edersonlima.net/?p=164
+http://jmmwrite.wordpress.com/2009/02/18/pequeno-exemplo-em-java-de-formatacao-para-moeda/
+*****************************************************************************************************************************
+
+ReembolsoDepConta
+
+br.com.braspress.integracao.datapressebs.produtor.ReembolsoDepContaProducer
+
+
+VW_INT_AP_REEMBOLSO_DEP_CONTA
+VwIntApReembolsoDepConta
+
+
+ctrl shift + r -->class
+ctrl shift + m --> uses
+ctrl shift + i --> ver conteudo no debug
+ctrl shift + F --> identar codigo 
+ctrl shift + t --> achar classe
+ctrl + 1 --> implembtar algo
+serialVersionUID
+
+ MainClass
+br.com.braspress.integracao.jms.ProdutorBase
+br.com.braspress.integracao.jms.ConsumidorBase
+
+
+Program Argument
+br.com.braspress.integracao.datapressebs.produtor.ContabilizacaoCtrcProducer
+br.com.braspress.integracao.datapressebs.consumidor.ContabilizacaoCtrcConsumer
+
+VM Argument
+-Dqueue=CONTABILIZACAO_CTRC -DdataSource=datapressConfig.xml
+-Dqueue=CONTABILIZACAO_CTRC -DdataSource=ebsConfig.xml
+
+
+
+<prop key="URL">jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=tcp)(HOST=171.100.9.60)(PORT=1529)))(CONNECT_DATA=(SERVICE_NAME=DEV)))</prop>
+				<prop key="user">XXBTUINTERFACE</prop>
+				<prop key="password">btuinterface</prop>
+
+
+
+br.com.braspress.integracao.datapressebs.consumidor.ReembolsoDepContaConsumer
+
+
+
+
+scape xml
+scape html
+
+ &lt;&gt; diferente
+&lt; menor igual
+
+
+Datas
+ SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
+ SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm");
+	
+ System.out.println(sdfData.format(new Date()));
+ System.out.println(sdfHora.format(new Date()));
+
+ 
+ Ao invés de utilizar toString utilizar String.valueof
+ Ao complete por palavaras - eclipse
+ Preferences -> Override
+                Contente Assist
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+	public static String formataMoeda(double valor){
+		String valorFormatado;
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		valorFormatado = nf.format(valor);
+		
+		return valorFormatado;
+	}
+
+	
+	public static String formataMoedaInsertInto(double valor){
+		String valorFormatado;
+		NumberFormat nf = new DecimalFormat(".##");
+		valorFormatado = nf.format(valor);
+		
+		valorFormatado = valorFormatado.replace(",", ".");  
+		
+		return valorFormatado;
+	}
+
+	
+	
+	
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class ConnectionFactory {
+	
+	public static Connection createConnection () {
+		String stringDeConexao = "jdbc:mysql://localhost:3306/livrariak19";
+		String usuario="root";
+		String senha="root";
+		
+		Connection conexao = null ;
+		
+		try {
+			conexao = DriverManager.getConnection(stringDeConexao, usuario, senha);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return conexao;
+		
+	}
+
+
+
+
+
+//delete JDBC
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+
+
+public class DeleteEditora {
+	
+	public static void main(String[] args) throws SQLException {
+		Scanner entrada = new Scanner (System.in);
+		System.out.println("Abrindo conexão...");
+		
+		Connection conexao = ConnectionFactory.createConnection();
+		System.out.println("Digite o ID da Editora a ser excluída");
+		String id = entrada.nextLine();
+		
+		String sql = " DELETE FROM Editora WHERE ID = ?";
+		PreparedStatement comando = conexao.prepareStatement(sql);
+		comando.setString (1, id );
+		
+		System.out.println("Executando comando...");
+		comando.execute();
+		
+		System.out.println("Fechando a conexão...");
+		conexao.close();
+		
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+}
+
+
+//Listar JDBC
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class ListaEditoras {
+	
+	public static void main(String[] args) {
+		try {
+			System.out.println("Abrindo conexão...");
+			
+			Connection conexao = ConnectionFactory.createConnection();
+			
+			String sql = "SELECT * FROM Editora ;";
+			PreparedStatement comando = conexao.prepareStatement(sql);
+			System.out.println("Executando comando...");
+			ResultSet resultado = comando.executeQuery();
+			
+			System.out.println("Resultado encontrados: \n");
+			
+			while (resultado.next()){
+				System.out.printf("%d : %s - %s \n",
+						resultado.getInt("id"),
+						resultado.getString("nome"),
+						resultado.getString("email")
+						);
+			}
+			
+			System.out.println("\n Fechando a conexão...");
+			conexao.close();			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+	
+	
+	
+//Insert JDBC
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+
+
+public class InsereEditora {
+	
+	public static void main(String[] args) throws SQLException {
+		Scanner entrada = new Scanner (System.in);
+		System.out.println("Abrindo conexão...");
+		
+		Connection conexao = ConnectionFactory.createConnection();
+		System.out.println("Digite o nome da Editora:");
+		String nome = entrada.nextLine();
+		
+		System.out.println("Digite o email da Editora:");
+		String email = entrada.nextLine();
+		
+		String sql = " INSERT INTO Editora (nome , email ) VALUES (?, ?)";
+		PreparedStatement comando = conexao.prepareStatement(sql);
+		
+		comando.setString (1, nome );
+		comando.setString (2, email );
+		
+		
+		System.out.println("Executando comando...");
+		comando.execute();
+		
+		System.out.println("Fechando a conexão...");
+		conexao.close();
+		
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+}
+	
