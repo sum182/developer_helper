@@ -1,0 +1,40 @@
+****comandos básicos*************************************************************
+git init --> inicializa um projeto
+git add * --> adiciona arquivo a um projeto
+git commit -m "msg do commit"--> comita arquivos localmente
+git branch -M main --> cria uma branch
+git remote add origin https://github.com/sum182/git.git --> vinculando meu repositorio local com o repositorio remoto
+git clone --> copia o diretório remoto localmente
+
+git push --> envia para o repositorio remoto
+git push origin main --> envia para o repositorio remoto na branch main
+git push -u origin main --> envia para o repositorio remoto e cria a branch main remotamente
+
+git pull --> download dos arquivos do repositorio remoto
+git pull origin main --> download dos arquivos do repositorio remoto da branch main
+
+*********************************************************************************
+
+
+
+**create a new repository on the command line***********************************
+echo "# git" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sum182/git.git
+git push -u origin main
+*********************************************************************************
+
+
+
+**push an existing repository from the command line******************************
+git remote add origin https://github.com/sum182/git.git
+git branch -M main
+git push -u origin main
+
+**antes destes comando é legal dar o git init
+*********************************************************************************
+
+
