@@ -9,6 +9,7 @@ git clone --> copia o diretório remoto localmente
 git push --> envia para o repositorio remoto
 git push origin main --> envia para o repositorio remoto na branch main
 git push -u origin main --> envia para o repositorio remoto e cria a branch main remotamente
+git push -u origin homolog --> envia para o repositorio remoto e cria a branch homolog remotamente
 
 git pull --> download dos arquivos do repositorio remoto
 git pull origin main --> download dos arquivos do repositorio remoto da branch main
@@ -20,6 +21,18 @@ Accept Incoming Change --> Aceita a mudança que está chegando do repositorio
 Accept Both Change --> Aceitar as 2 mudanças
 Compare Changes --> Comparar as mudanças
 
+para fazer o merge de uma branch para outra 
+  primeiramente entramos na branch de destino
+  git checkout main --> troca de branch (neste exemplo para a branch main)
+
+  em seguida o comando git merge
+  git merge homolog --> faz um merge da branch homolog com a branch ativa
+
+  envia tudo ao repositorio remoto
+  git push origin main
+
+
+
 
 *branchs
 git branch --> visualiza as branchs locais
@@ -27,6 +40,10 @@ git checkout main --> troca de branch (neste exemplo para a branch main)
 git checkout -b feacture1 --> cria um nova branch localmente
 git merge feacture1 --> faz um merge da branch feacture1 com a branch main
 git branch -d feacture1 --> delete branch (neste exemplo delete a branch feacture1)
+git push origin --delete nome_branch --> deleta branch remotamente
+
+*diversos
+git reset --hard origin/main --> reseta repositorio de acordo com alguma branch
 *********************************************************************************
 
 
