@@ -1,0 +1,15 @@
+****comandos básicos*************************************************************
+npm init --> cria um projeto
+*********************************************************************************
+
+
+
+
+
+****criar um projeto*************************************************************
+criar uma pasta vazia
+navegar até a pasta pelo terminal
+npm init --> cria um projeto
+preencher as configurações do projeto
+
+*********************************************************************************
