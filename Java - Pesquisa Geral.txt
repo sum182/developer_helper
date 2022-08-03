@@ -1,0 +1,71 @@
+RestTemplate - Params
+https://attacomsian.com/blog/spring-boot-resttemplate-get-request-parameters-headers
+https://stackoverflow.com/questions/8297215/spring-resttemplate-get-with-parameters
+http://www.javased.com/?api=org.springframework.web.util.UriComponentsBuilder
+https://java.hotexamples.com/examples/org.springframework.web.util/UriComponentsBuilder/queryParam/java-uricomponentsbuilder-queryparam-method-examples.html
+https://www.baeldung.com/spring-uricomponentsbuilder
+https://attacomsian.com/blog/spring-boot-resttemplate-get-request-parameters-headers
+
+
+Json x Java
+https://www.baeldung.com/java-generate-class-from-json
+https://www.baeldung.com/java-jsonnode-get-keys
+https://stackoverflow.com/questions/22062056/a-jsonobject-text-must-begin-with-at-1-character-2-line-1-with-error
+https://www.baeldung.com/java-jsonarray-get-value-by-key
+https://www.baeldung.com/jsonobject-iteration
+https://www.baeldung.com/jackson-mapping-dynamic-object
+https://levelup.gitconnected.com/parsing-json-arrays-as-objects-with-jackson-c2620e7cc439
+https://www.baeldung.com/jackson-deserialize-json-unknown-properties
+https://www.baeldung.com/jackson-object-mapper-tutorial
+
+
+
+Maps /Hash / List/Json
+https://javarevisited.blogspot.com/2017/10/jackson-json-parsing-error.html#axzz7a5pvNI9p
+https://stackoverflow.com/questions/13245506/unable-to-parse-json-with-map-objectmapper
+https://stackoverflow.com/questions/15521601/jackson-serialization-with-objectmapper-in-java
+https://thepracticaldeveloper.com/java-and-json-jackson-serialization-with-objectmapper/
+https://stackabuse.com/converting-json-array-to-a-java-array-or-list/
+https://stackabuse.com/definitive-guide-to-jackson-objectmapper-serialize-and-deserialize-java-objects/
+https://pt.stackoverflow.com/questions/290759/como-obter-objetos-de-um-array-de-json-usando-jsonarray-no-java
+https://stackoverflow.com/questions/6349421/how-to-use-jackson-to-deserialise-an-array-of-objects
+https://www.baeldung.com/spring-webclient-json-list
+https://www.baeldung.com/jackson-linkedhashmap-cannot-be-cast
+https://www.baeldung.com/java-performance-mapping-frameworks
+https://stackoverflow.com/questions/39237835/jackson-jsonnode-to-typed-collection
+https://www.demo2s.com/java/jackson-objectmapper-convertvalue-object-fromvalue-typereference-t-t.html
+https://stackoverflow.com/questions/59232693/jackson-databind-objectmapper-convertvalue-with-custom-mapping-implementaion
+https://www.devmedia.com.br/introducao-ao-jackson-objectmapper/43174
+https://medium.com/dev-cave/mapstruct-mapeando-seus-dtos-para-model-8bc362b628fe
+https://mapstruct.org/
+https://www.techiedelight.com/pt/add-values-to-map-java/
+https://www.techiedelight.com/pt/convert-list-to-map-java/
+https://stackoverflow.com/questions/61756866/convert-map-string-string-to-map-string-list-string-java-7
+https://pt.stackoverflow.com/questions/168214/o-que-%C3%A9-isso-private-listmapstring-object-gastos
+https://www.javatpoint.com/map-and-hashmap-in-java
+
+
+Object Mapper
+https://www.baeldung.com/jackson-object-mapper-tutorial
+https://www.devmedia.com.br/introducao-ao-jackson-objectmapper/43174
+
+Mapstruct
+https://mapstruct.org/
+https://www.baeldung.com/mapstruct
+https://www.youtube.com/watch?v=A9-Inky1Fjo&list=PL62G310vn6nFBIxp6ZwGnm8xMcGE3VA5H&index=17
+https://stackabuse.com/guide-to-mapstruct-in-java-advanced-mapping-library/
+https://stackabuse.com/data-transfer-object-pattern-in-java-implementation-and-mapping/
+
+
+Injecao de Dependencias
+https://blog.algaworks.com/injecao-de-dependencias-com-spring/
+
+
+SSL Accept All
+https://www.javatips.net/api/org.springframework.http.client.clienthttprequestfactory
+https://stackoverflow.com/questions/53511471/custom-resttemplate-using-requestfactory-of-resttemplatebuilder-in-springboot-2
+https://java.tutorialink.com/custom-resttemplate-using-requestfactory-of-resttemplatebuilder-in-springboot-2-1-x-is-not-backward-compatible-with-version-1-5-x/
+https://www.baeldung.com/httpclient-ssl
+https://stackoverflow.com/questions/39922714/ignore-self-signed-certificates-in-apache-httpclient-4-5
+https://stackoverflow.com/questions/39762760/javax-net-ssl-sslexception-certificate-doesnt-match-any-of-the-subject-alterna
+
