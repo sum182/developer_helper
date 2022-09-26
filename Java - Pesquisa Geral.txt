@@ -69,3 +69,13 @@ https://www.baeldung.com/httpclient-ssl
 https://stackoverflow.com/questions/39922714/ignore-self-signed-certificates-in-apache-httpclient-4-5
 https://stackoverflow.com/questions/39762760/javax-net-ssl-sslexception-certificate-doesnt-match-any-of-the-subject-alterna
 
+
+Lmabda vs Null
+https://stackoverflow.com/questions/32884195/filter-values-only-if-not-null-using-lambda-in-java8
+
+
+
+JsonView
+https://stackoverflow.com/questions/45137920/set-default-view-inclusion-in-yaml-file
+https://medium.com/@iamitpatil1993/jackson-jsonview-and-its-meaningful-use-with-spring-boot-rest-5fb2ad58dcfe
+https://www.baeldung.com/jackson-json-view-annotation

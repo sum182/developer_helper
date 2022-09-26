@@ -357,3 +357,78 @@ public class InsereEditora {
 
 }
 	
+
+
+
+
+***RestTemplate
+get com body
+ HttpHeaders headers = new HttpHeaders();
+ headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+ headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+ MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+ multiValueMap.put("apikey", Collections.singletonList(applianceInstance.getBearerToken()));
+
+ HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(multiValueMap, headers);
+
+    PlaybookDTO[] playbookDTOS =
+       restTemplate.exchange(url
+            , HttpMethod.GET  , entity, PlaybookDTO[].class).getBody();
+
+
+
+
+ HttpHeaders headers = new HttpHeaders();
+    headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+    HttpEntity<String> entity = new HttpEntity<>(headers);
+
+    URI uri = UriComponentsBuilder
+        .fromHttpUrl(url)
+        .queryParam("apikey", applianceInstance.getBearerToken())
+        .build()
+        .toUri();
+
+    PlaybookDTO[] playbookDTOS =
+        restTemplate.exchange(
+            uri,
+            HttpMethod.GET  , entity, PlaybookDTO[].class).getBody();
+
+
+
+
+
+
+
+ ApplianceDTO applianceDTO = applianceService.getApplianceInfo();
+
+    UriComponents builder =
+        HttpRestUtils.createBuilder(REQUEST_URL)
+            .queryParam(PARAM_COMPANY_ID, companyId)
+            .queryParam("apikey", applianceDTO.getApiKey())
+            .buildAndExpand(REQUEST_URL);
+
+    HttpHeaders headers = new HttpHeaders();
+    HttpEntity<String> entity = new HttpEntity<>(headers);
+
+    try {
+      ResponseEntity<List<PlaybookDTO>> response =
+          restTemplate.exchange(
+              builder.toUriString(),
+              HttpMethod.GET,
+              entity,
+              new ParameterizedTypeReference<List<PlaybookDTO>>() {});
+      applicationEventPublisher.publishEvent(
+          new AuditEventNotification<>(
+              new AuditEvent(
+                  EventStatus.SUCCESS, EventAction.CHECK_PRIVATE_PLAYBOOK, Solution.HEIMDALL)));
+      return response.getBody();
+    } catch (HttpClientErrorException e) {
+      log.error("Error check private playbook for customer id [{}]", companyId, e);
+      applicationEventPublisher.publishEvent(
+          new AuditEventNotification<>(
+              new AuditEvent(
+                  EventStatus.FAIL, EventAction.CHECK_PRIVATE_PLAYBOOK, Solution.HEIMDALL)));
+    }
+    return null;
