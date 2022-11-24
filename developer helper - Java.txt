@@ -432,3 +432,21 @@ get com body
                   EventStatus.FAIL, EventAction.CHECK_PRIVATE_PLAYBOOK, Solution.HEIMDALL)));
     }
     return null;
+
+
+
+Ternario
+Ternário
+
+String type = isNotScheduler ? "INCIDENTS_COLLECTOR" : "SCHEDULER";
+Locale locale = form.getLocale() == null? Locale.pt_BR : form.getLocale();
+
+
+
+
+
+gerar jar
+https://cezarcruz.com.br/como-exportar-jar-utilizando-intellij/#:~:text=Para%20gerar%20o%20jar%2C%20Build,na%20pasta%20out%2Fartifacts%2F.
+https://www.tutorialworks.com/intellij-maven-create-jar/
+
+
