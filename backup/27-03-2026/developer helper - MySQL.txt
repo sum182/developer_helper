@@ -1,0 +1,31 @@
+
+BLOB
+------------------------------------------------------------------------------------------------------------------
+http://www.linhadecodigo.com.br/artigo/100/blob-fields-in-mysql-databases.aspx
+http://angelitomg.com/blog/diferenca-entre-os-campos-text-e-blob-do-mysql/
+http://www.webmaster.pt/mysql-blob-fields-3293.html
+------------------------------------------------------------------------------------------------------------------
+
+
+
+Tipo de Campos
+------------------------------------------------------------------------------------------------------------------
+http://www.rcoli.com.br/2012/08/tipos-de-campos-no-mysql-saiba-como-escolher-o-tipo-correto/
+------------------------------------------------------------------------------------------------------------------
+
+
+
+Querys AutoInc
+SELECT last_insert_id() from escola limit 1
+
+ALTER TABLE escola AUTO_INCREMENT=1
+
+ALTER TABLE escola AUTO_INCREMENT = 40;
+
+select LAST_INSERT_ID()
+
+SHOW TABLE STATUS LIKE 'escola'
+ 
+SELECT Auto_increment FROM information_schema.tables WHERE table_name='escola';
+
+ALTER TABLE escola AUTO_INCREMENT = ( SELECT Auto_increment FROM information_schema.tables WHERE table_name='escola') 

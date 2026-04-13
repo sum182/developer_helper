@@ -1,0 +1,302 @@
+
+----grants------------------------------------------------------------------------------
+tool
+select,insert,update,delete,alter
+
+grant select, insert, update, delete, alter on CLI_REGRAS_ESPECIF to TOOL;
+GRANT EXECUTE ON sp_cliente_aereo_validar TO tool;
+grant ALL on SEQ_ID_EMI_PAGTO_AGREGADO to TOOL;
+----------------------------------------------------------------------------------------
+
+----SEQUENCE----------------------------------------------------------------------------
+-- Create sequence 
+create sequence SEQ_cli_reg_esp_regiao;
+
+
+create or replace trigger TRG_FON_CADASTRO_ID
+  before insert on fon_cadastro  
+  for each row
+declare
+
+begin
+
+ 
+ SELECT TOOLDBA.SEQ_FON_CAD.NEXTVAL
+ INTO :new.ID_FON_CADASTRO
+ FROM DUAL;
+ 
+end TRG_FON_CADASTRO_ID;
+--------------------------------------------------------------------------------------------
+
+--SINOMIMOS---------------------------------------------------------------------------------
+
+create public synonym OOBJ_MDFE_ENVIO FOR tooldba.OOBJ_MDFE_ENVIO;
+--------------------------------------------------------------------------------------------
+
+
+
+----FILTRO DATA-----------------------------------------------------------------------------
+ AND A.ACD_DATA BETWEEN   TO_DATE(:DATAINI, 'DD/MM/YYYY HH24:MI:SS') AND
+                          TO_DATE(:DATAFIM, 'DD/MM/YYYY HH24:MI:SS')
+--------------------------------------------------------------------------------------------
+
+	
+
+
+
+----procedure-------------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE SP_CLIENTE_AEREO_VALIDAR(
+                                                      pIdFilialOrigem IN EMP_FILIAL.ID_FILIAL%TYPE,
+                                                      pIdFilialDestino IN EMP_FILIAL.ID_FILIAL%TYPE,
+                                                      pModal IN TAR_MODAL.ID_TAR_MODAL%TYPE,       
+                                                      pTipoFrete IN NUMBER,
+                                                      
+                                                      
+                                                      MSGOK OUT VARCHAR2
+                                                     )IS
+                                                     
+  varteste VARCHAR2(50);
+  varteste2 NUMBER;
+  
+BEGIN
+  MSGOK := 'OK';
+  
+END SP_CLIENTE_aEREO_VALIDAR;               
+--------------------------------------------------------------------------------------------------
+
+
+----EXEMPLO NO DATA FOUND-------------------------------------------------------------------------------------
+  BEGIN
+    SELECT FCALC.ID_FILIAL_CALCULO
+      INTO RESULT
+    FROM EMI_FILIAL_CALCULO FCALC
+     WHERE FCALC.ID_FILIAL_EMISSAO = P_ID_FILIAL_EMISSAO
+       AND FCALC.ID_TAR_MODAL = P_MODAL;
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      RESULT := 0;
+  END;
+ --------------------------------------------------------------------------------------------------
+ 
+ 
+ 
+
+
+
+----formatações oracle
+ TO_CHAR(COL_ROTEI_DATA,'YYYY')AS ANO,
+ TO_CHAR(COL_ROTEI_DATA,'MM')AS MES,
+			 
+			 
+AM   - AM ou PM
+CC   - Século
+D    - Dia da semana (1-7)
+DAY  - Dia da semana ('SUNDAY')
+DD   - Dia do mês (1-31)
+DDD  - Dia do ano
+DY   - Dia da semana abreviado ('SUN')
+FM   - Tira os blanks ou Zeros da esquerda
+HH   - Hora do dia (0-12)
+HH24 - Hora do dia (0-24)
+MI   - Minutos da Hora
+MM   - Mês com 2 dígitos
+MON  - Mês abreviado ('NOV')
+MONTH- Mês por extenso ('NOVEMBER')
+PM   - AM ou PM
+RR   - Ano com 2 dígitos - especial
+RRRR - Ano com 4 dígitos
+SS   - Segundos do minuto(0 - 59)
+SSSSS- Segundos do dia
+W    - Semana do Mês
+WW   - Semana do Ano
+YEAR - Ano por extenso
+YY   - Ano com 2 dígitos
+YYYY - Ano com 4 dígitos
+-------------------------------------------------
+
+
+----select data-----------------------------------------------------------------------------------------
+  AND mr.AER_AWB_DATA BETWEEN          
+
+           TO_DATE(:DT_INI || ' 00:00:00', 'DD/MM/RRRR HH24:MI:SS') AND
+           TO_DATE(:DT_FIM || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS')
+		   
+		   
+AND C.EMI_CONH_DTHORAIMPRESSAO BETWEEN  TO_DATE(:DT_INI,'DD/MM/RRRR') AND TO_DATE(:DT_FIM,'DD/MM/RRRR')
+		   
+---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+----SELECT DATA HORA--------------------------------------------------------------------------------------
+select * from col_coleta co
+where co.id_empresa_filial = 915
+and co.col_data_coleta = '14/12/2011'
+and co.col_coleta_remetente like '%MARIA DE CHITA%'
+AND CO.COL_DATA_CADASTRO = to_date('13/12/2011 19:39:16','dd/mm/yyyy hh24:mi:ss') 
+--------
+
+
+
+
+
+----PRAGMA AUTONOMOUS_TRANSACTION-----------------------------------------------------------------------------
+CREATE TRIGGER anniversary_trigger
+   BEFORE INSERT ON employees FOR EACH ROW
+DECLARE
+   PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN
+   INSERT INTO anniversaries VALUES(TRUNC(:new.hire_date));
+-- Only commits the preceding INSERT, not the INSERT that fired
+-- the trigger.
+   COMMIT;
+   EXCEPTION
+-- If someone else was hired on the same day, we get an exception
+-- because of duplicate values. That's OK, no action needed.
+      WHEN OTHERS THEN NULL;
+END;
+--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------
+  --DBMS_SESSION.SET_NLS('NLS_DATE_FORMAT', 'DD/MM/RRRR');
+   
+  --ESTE AQUI É MELHOR DO QUE O DE CIMA
+  EXECUTE IMMEDIATE 'alter session set nls_date_format = ''DD/MM/RRRR''';
+  COMMIT;
+  
+  
+ procedure set_nls(param varchar2, value varchar2);
+  --  Equivalent to SQL "ALTER SESSION SET <nls_parameter> = <value>"
+  --  Note:
+  --   Using "execute immediate 'alter session'" has better performance
+  --   than using dbms_session.set_nls. Further, when setting multiple
+  --   parameters, EXEC IMMEDIATE allows user to set all of them in one
+  --   statement, which is much more efficient than calling
+  --   dbms_session.set_nls in multiple statements.
+  --  Input arguments:
+  --    param
+  --      The NLS parameter. The parameter name must begin with 'NLS'.
+  --    value
+  --      The value to set the parameter to.  If the parameter is a
+  --      text literal then it will need embedded single-quotes.  For
+  --      example "set_nls('nls_date_format','''DD-MON-YY''')"
+  
+  
+https://forums.oracle.com/forums/thread.jspa?threadID=369529
+Alter session command on start-up 
+
+
+I decided this problem with the creation of trigger (sys user), as below:
+
+CREATE OR REPLACE
+TRIGGER ON_CONNECT AFTER LOGON ON DATABASE 
+BEGIN
+EXECUTE IMMEDIATE 'alter session set time_zone = local';
+EXECUTE IMMEDIATE 'alter session set nls_date_format = ''YYYY-MM-DD''';
+EXECUTE IMMEDIATE 'alter session set nls_timestamp_format = ''YYYY-MM-DD HH24:MI:SS.FF''';
+EXECUTE IMMEDIATE 'alter session set nls_timestamp_tz_format = ''YYYY-MM-DD HH24:MI:SS.FF TZH:TZM''';
+END;
+
+The parameters are displayed in accordance with my necessities, but you can modify in accordance with the your necessities.
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+----insert com retorno do ID--------------------------------------------------------------------------------------------
+
+BEGIN
+  INSERT INTO TOOLDBA.CRM_AGENDA_NEW
+    (ID_CRM_AGENDA_NEW,
+     CAN_CATEGORIA,
+     CAN_TIPO_CONTATO,
+     ID_CLI_BASICO,
+     CAN_DATA,
+     CAN_PAUTA,
+     CAN_STATUS,
+     CAN_PROGRAMADA,
+     CAN_PROC_VENDA,
+     CAN_MODAL_PROC_VENDA,
+     CAN_USU_AGENDADOR,
+     CAN_USU_DONO,
+     CAN_DATA_LANCAMENTO,
+     CAN_VISITA_CONTATO)
+  VALUES
+    (0,
+     :P_CAN_CATEGORIA,
+     :P_CAN_TIPO_CONTATO,
+     :P_ID_CLI_BASICO,
+     :P_CAN_DATA,
+     :P_CAN_PAUTA,
+     :P_CAN_STATUS,
+     :P_CAN_PROGRAMADA,
+     :P_CAN_PROC_VENDA,
+     :P_CAN_MODAL_PROC_VENDA,
+     :P_CAN_USU_AGENDADOR,
+     :P_CAN_USU_DONO,
+     :P_CAN_DATA_LANCAMENTO,
+     :P_CAN_VISITA_CONTATO);
+
+  RETURNING ID_CRM_AGENDA_NEW
+    INTO :P_ID_RETURN;
+
+END;
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+   
+Historico PL SQL
+ctr + e --> no SQL Window   
+
+
+(09:02) carlos: Se quiser incluir no seu TNS o acesso ao bando de testes do sorter, os dados são:DBSORTER =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 171.100.10.189)(PORT = 1531)))
+    (CONNECT_DATA =
+    (SERVER = DEDICATED)
+    (SERVICE_NAME = DBSORTER)))
+
+
+
+
+
+	
+	
+atualizar indices do oracle	
+DBMS_STATS.gather_TABLE_stats('TOOLDBA', 'CRM_CONTROLE_TABELA', CASCADE =>  TRUE,method_opt => 'FOR ALL INDEXED COLUMNS');	
+
+
+
+
+
+
+
+EXEMPLO DE CASE NO SQL
+   CASE
+     WHEN T.COL_VEIPROP_CGC IS NOT NULL THEN
+       T.COL_VEIPROP_CGC
+      ELSE
+       T.COL_VEIPROP_CPF 
+   END AS FORNECEDOR_CNPJ_CPF,
+   
+   
+   
+	
+
+
+ SELECT REGEXP_REPLACE(CNPJ_CPF, '[^0-9]+', '') AS CNPJ_CPF 

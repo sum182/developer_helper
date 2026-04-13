@@ -1,0 +1,219 @@
+
+templates
+****************************************************************************************************
+tenho um ambiente de desenvolvimento com as seguintes stacks: 
+windows 11, 
+java versão jdk 11, spring, maven versão 3.9.2, lombok, intelliJ versão 2023.3.3,
+mysql versão 8.3, aws, localstack, insomnia versão 2023.2.2
+
+não consigo utilizar o docker devido a restrições da minha empresa, então tudo tenho que fazer manualmente.
+atualize essas informações para as próximas perguntas.
+
+
+
+
+e ae mano blz?
+
+tenho uma aplicacao java com spring e maven 
+
+
+
+tenho uma aplicacao java com spring e keycloack e gostaria de deletar todas as roles de um client do keycloack
+
+
+
+tenho uma aplicacao java e faço  testes utilizando o postman.
+
+
+
+
+****************************************************************************************************
+
+
+
+
+templates - perguntas trampo
+****************************************************************************************************
+
+e ae mano blz?
+
+estou respondendo algumas perguntas para uma proposta de emprego, quero sua ajuda.
+
+minha área: Desenvolvedor Backend Java Sênior.
+
+por favor me ajuda a melhorar essas respostas.
+
+
+segue perguntas:
+
+Quanto tempo de experiência com Java?
++ 6 anos
+
+Quanto tempo de experiência GCP?
++ 2 anos
+
+Trabalhou com projetos do zero?
+ Sim, em meu último projeto, fui responsável pela migração do sistema legado para uma nova arquitetura de microserviços. Utilizei tecnologias como Spring Cloud, Keycloak, Gateway, Eureka Server e RabbitMQ para criar uma solução escalável e eficiente.
+
+
+Expectativa taxa/hora?
+Valor Hora R$100
+
+Trabalhou no segmento de Seguros com Java? Qual(s) Empresas?
+Embora não tenha trabalhado especificamente no segmento de Seguros com Java, possuo um amplo conhecimento em diversas áreas que possuem aspectos similares aos do setor de Seguros. Em particular, tenho experiência em áreas como Financeira, Faturamento, Produção e PCP (Planejamento e Controle da Produção).
+
+Na área Financeira, desenvolvi soluções que requerem atenção aos detalhes e precisão, habilidades essenciais para lidar com dados sensíveis, comuns no setor de seguros. Em Faturamento, trabalhei com processos de cobrança, emissão de notas fiscais e controle de pagamentos, aspectos relevantes para o gerenciamento de apólices e transações no setor de seguros.
+
+Minha experiência em Produção e PCP envolveu planejamento, controle e análise de processos produtivos, habilidades que podem ser aplicadas na gestão de produtos e serviços de seguros.
+
+Essas experiências me permitem compreender rapidamente as necessidades de um negócio e transformá-las em soluções de software eficazes, mesmo em outros setores como o de Seguros.
+****************************************************************************************************
+
+
+
+
+
+
+
+templates - perguntas trampo
+****************************************************************************************************
+
+e ae mano blz?
+
+estou respondendo algumas perguntas para uma proposta de emprego, quero sua ajuda.
+
+segue meu cv:
+ÁLVARO ESTEVES BOMCONPAGNO ALVES
+Casado, brasileiro, 40 anos, 2 Filhos
+Rua Antônio Gomes, 135 - Apto 146 - Torre Liberdade
+Vila Santo Antônio - Guarulhos - SP - CEP: 07093-090
+Celular: (11) 98214 - 7819
+E-mail: sum182@gmail.com
+Linkedin: https://www.linkedin.com/in/alvaroestevesalves
+OBJETIVO PROFISSIONAL
+Desenvolvedor Backend Java Sênior
+QUALIFICAÇÕES
+Experiência de 20 anos na Área de TI, tendo ocupado cargos de Desenvolvedor, Tech Lead, Gerente de Desenvolvimento de Sistemas, Supervisor de TI e Instrutor de Informática;
+Desenvolvimento de softwares com a utilização de Java e todo ecossistema Spring/Spring Cloud, com o domínio em Lógica de Programação, Orientação a Objetos e principais Banco de Dados;
+Implementação de arquitetura de Microservices com Spring Cloud, API Gateway, Eureka Server, Config Server, Circuit Breaker, keycloak, RabbitMQ e Open Feign;
+Boa capacidade de análise de negócios e processos, metodologias ágeis (Scrum/Kanban), gerenciamento de equipes e gestão de projetos;
+Conhecimentos nas áreas: Transporte, Compras, Vendas, Financeira, Faturamento, Produção, PCP, Estoque, Chão de Fábrica, HelpDesk, EDI, RH, Laboratórios Medicinais, Call Center, Garantia da Qualidade e Sistemas de Segurança da Informação.
+EXPERIÊNCIA PROFISSIONAL
+De: 03/2022 à 11/2023
+Empresa: Diazero Technologies Ltda.
+Funções: Desenvolvimento de Sistemas de Segurança da Informação utilizando Java e ecossistema Spring (Spring Boot, Spring Data, Spring Cloud e Spring Security);
+Principais destaques:
+ Migração de todo o sistema para uma nova arquitetura utilizando microserviços, Spring Cloud, Keycloak, Gateway, Eureka Server e RabbitMQ;
+ Comunicação assíncrona/síncrona entre os microserviços utilizando RabbitMQ e Open Feign;
+ Uma camada de SSO único e centralizada foi criada com o keycloak;
+ Utilização de TestContainers para criação de ambientes de teste automatizados;
+ Responsável técnico pela equipe de backend.
+Cargo: Desenvolvedor Backend Sênior | Tech Lead
+2
+De: 07/2010 à 09/2021
+Empresa: Braspress Transportes Urgentes Ltda.
+Funções: Desenvolvimento e Manutenção do sistema TMS utilizando Delphi/Java/Oracle e coordenação da equipe de desenvolvimento.
+Migração do sistema em Delphi para Java utilizando JEE, JSF, Primefaces e Hibernate.
+Manutenção de integrações entre sistemas baseada em filas utilizando JMS e Active MQ.
+Cargo: Desenvolvedor Sênior | Gerente de Desenvolvimento de Sistemas
+De: 01/2018 à 09/2018
+Empresa: Unisolution Consultoria e Desenvolvimento de Sistemas Ltda.
+Funções: Desenvolvimento e Manutenção de sistema para controle de terminais portuário utilizando Delphi/SQL Server
+Cargo: Desenvolvedor Sênior
+De: 06/2009 à 07/2010
+Empresa: Softtek do Brasil Consultoria e Informática Ltda.
+Funções: Coordenação da equipe de desenvolvimento, Controle de SLA, manutenção de sistemas ERP em Delphi e banco de dados Oracle 9i.
+Cargo: Tech Lead | Desenvolvedor Sênior
+De: 01/2005 à 03/2009
+Empresa: Ondulapel - Indústria e Comércio de Embalagens de Papelão Ondulado Ltda.
+Funções: Desenvolvimento e Manutenção do Sistema ERP utilizando Delphi e Firebird, coordenação da equipe de desenvolvimento, gerenciamento da área de TI, manutenção de servidores (Windows e Linux), análise de processos e regras de negócio.
+Cargo: Desenvolvedor Sênior | Supervisor de TI
+De: 08/2006 à 06/2007
+Empresa: Multiplataforma Sistemas de Informática Ltda.
+Funções: Desenvolvimento de sistemas laboratoriais utilizando Delphi e principais Banco de Dados.
+Cargo: Desenvolvedor Sênior
+De: 12/2003 à 01/2005
+Empresa: SPCOM Comércio e Promoções S.A
+Funções: Desenvolvimento e Manutenção de Sistemas para Call Center com a utilização de Visual Basic, VBA, Visual Fox Pro, automatização e desenvolvimento de relatórios.
+Cargo: Estagiário
+FORMAÇÃO ACADÊMICA
+2010 - MBA Sistemas de Gestão Empresarial - ERP
+Instituição: FIAP - Faculdade de Informática e Administração Paulista
+Conteúdo: Gestão Empresarial: Estratégia, Arquitetura de Negócios, Business Process Management (BPM), Materiais, Produção, Comercial, Financeiro, Custos; Conhecimento Funcional em ERP, focando em módulos do SAP: SD (Sales & Distribuition), MM (Material Management), PP (Production Planning) e FI/CO (Financial Accounting/Controlling); Tecnologias para Gestão Estratégica, utilizando-se de conceitos de: Customer Relationship Management (CRM), Business Intelligence (BI) e Supply Chain Management (SCM); Técnicas e Habilidades para Consultoria em ERP: Consultoria Empresarial, Gestão de Mudanças e Gerência de Projetos ERP.
+3
+2002/2005 - Graduação de Ciências da Computação
+Universidade: Uni Sant’anna
+1998/2001 – 2º Grau Técnico em Eletrônica
+Colégio: Torricelli
+CURSOS
+2022/2024 - Cursos em Java
+Local: Alura/Udemy
+Conteúdo: Microservices com Spring Cloud, API Gateway, Eureka Server, Config Server, Circuit Breaker e Open Feign;
+Spring Boot, Spring Security, Spring Data, API RESTful e JPA/ Hibernate;
+Java Collections, Streams, Lists, Sets, Maps, Lambda, Generics e JUnit.
+2013 - Academia Java Oracle Edition e Academia Web
+Local: Global Code
+2010 - Formação Java
+Local: Caelum
+Conteúdo: Java e Orientação a Objetos, Java para Desenvolvimento Web, Persistência com JPA2 e Hibernate, Spring Framework, Desenvolvimento Web com HTML, CSS e Javascript.
+2006 - Formação Delphi Developer - Treinamento Oficial Borland
+Local: TDS System
+Conteúdo: Win32, Intraweb, Rave Reports, Criação de Componentes, DataSnap e .Net.
+2005 - Cursos: Programação Distribuída com Java e Introdução à Linguagem Java
+Local: USP – Universidade de São Paulo
+2003 - Web Design: Html, Java Script, Flash e Dreamweaver
+Escola: Senai
+HABILIDADES ESPECÍFICAS
+Java, Spring Boot, Spring Framework, Spring Security, Spring Data, API RESTful, JPA/ Hibernate;
+Microservices com Spring Cloud, API Gateway, Eureka Server, Config Server, Circuit Breaker e Feign;
+RabbitMQ, Docker, Keycloak, Maven, GCP e Amazon EC2/RDS;
+TDD, Junit e TestContainers;
+Oracle, PL/SQL, MySQL, PostgreSQL, FireBird, Interbase, IBExpert, SQL Server, MER, Normalização e Modelagem de Dados;
+Versionamento com Git e SVN, Metodologias Ágeis (Scrum/Kanban), Clean Code;
+Windows, Linux, Office, Excel Avançado e Vba.
+LINKS
+https://www.linkedin.com/in/alvaroestevesalves/
+https://github.com/sum182
+
+o curriculo acaba aqui!
+
+
+
+
+minha área: Desenvolvedor Backend Java Sênior.
+
+por favor me ajuda a responder essas perguntas?
+
+
+segue perguntas:
+Qts anos de experiência profissional você possui como desenvolvedor JAVA?
+
+Requisitos da vaga:
+• Tenha concluído ou cursando (a partir do 4° semestre) análise de sistemas, informática, ciências da computação ou formações relacionada à Tecnologia da Informação; Em qual graduação ?
+• Experiência em desenvolvimento com Java 11, Quarkus e Spring Framework; qts anos de experiência profissional?
+• Experiência de 4+ anos como Desenvolvedor Java; qts anos de experiência profissional ?
+• Experiência no desenvolvimento de APIs e domínio da arquitetura REST ou GraphQL; qts anos de experiência profissional ?
+• Experiência em manutenção de sistemas legados Java; qts anos de experiência profissional ?
+• Conteinerização (Docker e/ou Kubernetes); qts anos de experiência profissional ?
+• Vivência em times que utilizam metodologias ágeis(Scrum, Kanban e/ou SAFe);qts anos de experiência profissional ?
+• Conhecimento das boas práticas de programação DevOps (CI/CD, Git, análise estática: Sonar, SCM, etc) e NoOps;qts anos de experiência profissional ?
+• Experiência em bancos de dados relacional (PostgreSQL, SQL Server e/ou Oracle 12C+);qts anos de experiência profissional ?
+• Utilização de mensageria (ActiveMQ, RabbitMQ e/ou Kafka);qts anos de experiência profissional ?
+• Plataforma de Cloud Computing (AWS, GCP, Azure e/ou IBM Cloud).qts anos de experiência profissional ?
+
+
+Desejável:
+• Experiência em sistemas financeiros; SIM ou NÃO ? 
+• Arquitetura de sistemas para nuvem/micro serviços; qts anos de experiência profissional ?
+• JasperReports e/ou JasperStudio; qts anos de experiência profissional ?
+• Experiência com Jira e Confluence; qts anos de experiência profissional ?
+• Experiência com Java + Struts; qts anos de experiência profissional ?
+• Conhecimento em bancos NoSQL; qts anos de experiência profissional ?
+• Conhecimento Hibernate; qts anos de experiência profissional ?
+• Conhecimento em Microsoft Azure; qts anos de experiência profissional ?
+• Conhecimento em modelagem UML.qts anos de experiência profissional ?
+Qual sua pretensão salarial para essa vaga Senior, remoto e CLT?
+
+
+fim das perguntas!
+****************************************************************************************************

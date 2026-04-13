@@ -1,0 +1,8 @@
+bibliotecas
+*************************************************************************************************
+Software Architecture
+System Design Components
+AWS Architecture Icons
+
+C4 Model Library(essa nao testei)
+*************************************************************************************************

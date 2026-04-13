@@ -1,0 +1,46 @@
+Ctrl + W -> fechar aba
+Ctrl + S --> Salvar Solicitação (Request) 
+Ctrl + Enter --> Executar
+
+
+
+
+
+
+Geral:
+
+Ctrl + N (Windows/Linux) ou Cmd + N (Mac): Nova janela do Postman.
+Ctrl + T (Windows/Linux) ou Cmd + T (Mac): Nova aba no Postman.
+Ctrl + W (Windows/Linux) ou Cmd + W (Mac): Fechar a aba ativa.
+Ctrl + S (Windows/Linux) ou Cmd + S (Mac): Salvar.
+Na Interface de Edição de Solicitações:
+
+Ctrl + Enter (Windows/Linux) ou Cmd + Enter (Mac): Enviar a solicitação ativa.
+Testes/Scripts:
+
+Ctrl + Enter (Windows/Linux) ou Cmd + Enter (Mac): Executar scripts (testes ou pré-requisitos).
+
+
+
+
+
+
+
+
+
+Na Área de Trabalho Principal:
+
+Ctrl + N (Windows/Linux) ou Cmd + N (Mac): Nova janela do Postman.
+Ctrl + T (Windows/Linux) ou Cmd + T (Mac): Nova aba no Postman.
+Na Interface de Edição de Solicitações:
+
+Ctrl + Enter (Windows/Linux) ou Cmd + Enter (Mac): Enviar a solicitação ativa.
+Ctrl + S (Windows/Linux) ou Cmd + S (Mac): Salvar a solicitação.
+Na Interface de Testes (Tests) ou Pré-Requisitos (Pre-request Scripts):
+
+Ctrl + Enter (Windows/Linux) ou Cmd + Enter (Mac): Executar scripts (testes ou pré-requisitos).
+Outros Atalhos Úteis:
+
+Ctrl + Alt + E (Windows/Linux) ou Cmd + Option + E (Mac): Alternar entre a visualização da barra lateral.
+Ctrl + Alt + N (Windows/Linux) ou Cmd + Option + N (Mac): Alternar entre a visualização da barra superior.
+Ctrl + Alt + P (Windows/Linux) ou Cmd + Option + P (Mac): Alternar entre a visualização do painel de resultados.

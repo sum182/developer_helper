@@ -80,27 +80,3 @@ git push -u origin main
 *********************************************************************************
 
 
-users:
-*********************************************************************************
-conteudo do .gitconfig
-[user]
-  name = Álvaro Alves
-  email = aesteves@boltenergy.com.br
-[safe]
-  directory = S:/Softwares/Install PC
-  directory = D:/Desenvolvimento/Projetos/Bolt
-  directory = *
-[user "pessoal"]
-  name = Álvaro
-  email = sum182@gmail.com
-[user "bolt"]
-  name = Álvaro Alves
-  email = aesteves@boltenergy.com.br
-
-
-
-podemos ter um arquivo no projeto em .git/config com o conteudo abaixo, com isso sempre sera utilizado esse user:
-[user]
-  name = Álvaro
-  email = sum182@gmail.com   
-*********************************************************************************

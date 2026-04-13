@@ -1,0 +1,551 @@
+
+
+
+
+----Atalhos------------------------------------------------------------------------------	
+ctrl + shift + a = uses unit
+ctrl + shift + alt + p = atualiza parametros dos métodos
+
+-----------------------------------------------------------------------------------------	
+
+
+
+----Edit somente com numero--------------------------------------------------------------
+no evento keypress
+
+  if not (Key in['0'..'9',Chr(8),Chr(22),Chr(3)]) then
+    Key:= #0;
+
+-----------------------------------------------------------------------------------------	
+
+					  
+
+----clob------------------------------------------------------------------------------------
+deixar o tfield como widememo
+colocar o componente cxdbRichEdit
+-----------------------------------------------------------------------------------------	
+
+	
+
+
+
+
+
+
+
+
+----query DataSet----------------------------------------------------------------------------
+uses Oracle
+
+  with TOracleDataSet.Create(nil)do
+  try
+    Session := Dm.SessionMain;
+    SQL.Clear;
+    SQL.Add('DELETE');
+    SQL.Add('FROM TOOLDBA.CLI_REG_ESP_CIDADE');
+    SQL.Add('WHERE ID_CLI_REGRAS_ESPECIF = :ID_CLI_REGRAS_ESPECIF');
+    DeclareAndSet('ID_CLI_REGRAS_ESPECIF',otInteger,odsPadraoID_CLI_REGRAS_ESPECIF.AsInteger);
+    Open;
+  finally
+    Free;
+  end;
+  
+  
+  with TOracleDataSet.Create(Application)do
+  try
+    Close;
+    Session := OracleSession;
+    SQL.Clear;
+    SQL.Add('SELECT tooldba.FN_MANIFESTO_PROX_DESTINO(:pIdManifesto) as Filial FROM DUAL');
+    DeclareVariable('pIdManifesto',otInteger);
+    SetVariable('pIdManifesto',IdManifesto);
+    Open;
+    Result := FieldByName('Filial').AsInteger;
+  finally
+    Free;
+  end;  
+  
+--------------------------------------------------------------------------------------------
+
+
+  AND A.FT_FAT_DTPAGTO BETWEEN TO_DATE(:P_DATAINI, 'DD/MM/RRRR') AND
+       TO_DATE(:P_DATAFIM || ' 23:59:59', 'DD/MM/RRRR HH24:MI:SS')
+
+-----------------------------------------------------------------------------------------------
+
+
+
+FireDac MasterDetail
+-----------------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=fO99lDwa5Nc
+https://www.youtube.com/watch?v=bsv-U9ywRms
+https://www.youtube.com/watch?v=bO-NfAuREqQ
+
+
+
+Para configurar e simples.
+
+
+***No FDQuery Master
+CachedUpdates = True
+SchemaAdapter = Setar um componente
+UpdateOptions
+  AutoIncFields - setar o campo
+
+
+
+***No FDQuery Detail
+MasterSource
+MasterFields
+IndexFieldNames = setar o filed id do master
+
+CachedUpdates = True
+
+FetchOptions
+  DetailCascate = True
+  Cache
+    FiDetails = True
+SchemaAdapter = Setar um componente
+UpdateOptions
+  AutoIncFields - setar o campo da tabela detalhe
+Params = setar o campo como o tipo AutoInc
+** Abrir e fechar a query em tempo de desenvolvimento e verificar se as propriedades dos campos estão corretas.
+
+
+-Salvar
+SchemaAdapter.ApplyUpdates(0);
+
+Evento FDSchemaAdapterAfterApplyUpdate
+Executar o comando Query.CommitUpdates; das querys envolvidas
+
+-Cancelar
+  FDQuery.Cancel;
+  FDQuery.CancelUpdates;
+
+-Before Edit/Insert do FDQDetail
+  FDQueryMaster.Edit;
+  FDQueryMaster.Post;
+  FDQueryMaster.Edit;
+-----------------------------------------------------------------------------------------------
+
+
+ClientDataSet Master Detail
+-----------------------------------------------------------------------------------------------
+http://www.edesoft.com.br/artigos/116-chaves-com-cds
+-----------------------------------------------------------------------------------------------
+
+
+----GRID MASTER DETAIL--------------------------------------------------------------------------
+CRIAR UM SUB LEVEL
+CRIAR UM cxGridDBTableView associado ao level
+
+setar as propriedades desta cxGridDBTableView
+DetailKeyFieldNames
+MasterKeyFieldNames
+
+nao precisa fz o master detail no dataset
+-------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+----mascaras--------------------------------------------------------------------------------------------------------------------------------------
+dev express
+
+somente numeros
+componente: MaskEdit
+
+propriedade MaskKind:emkRegExprEx
+propriedade EditMask:[0-9]+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----campo selecionado no cds-----------------------------------------------------------------------------------------------------------------------
+  arquitetura
+  query --> dsp-->cds-->ds
+  
+  deixar os tfields do campo na query e no cds na propriedade ProviderFlgs deixar []
+  
+  colocar no SQL '' as Selecionado
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+	
+
+----Estados de um DataSet-----------------------------------------------------------------------------------------------------------------------
+
+dsInactive
+O Dataset está fechado. Seus dados não estão disponíveis (não podem ser lidos nem alterados).
+
+dsBrowse
+O Dataset está aberto. Seus dados podem ser visualizados, mas não podem ser alterados. Este é o estado padrão de um DataSet.
+
+dsEdit
+O DataSet está aberto. O registro atual pode ser modificado.
+
+dsInsert
+O DataSet está aberto. Um novo registro acaba de ser inserido.
+
+dseditModes
+Estado de edição
+uses data.dbs
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----verificar dataset aberto---------------------------------------------------------------------------------------------------------------------
+function TfrmEstornarChequeDevolvido.verificarDataSetAtivoComRegistros(
+  DataSet: TDataSet): boolean;
+begin
+  result:= False;
+
+  if (DataSet.State in [dsInactive])Then
+    Exit;
+
+  if (DataSet.RecordCount <= 0 )Then
+    Exit;
+
+  result:= True;   
+end;
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+---Pegar o valor de um campo agregado------------------------------------------------------------------------------------------------------------
+  Result:=0;
+
+  if not (DMReversaoFaturasPagas.cdsFaturasEmAberto.State in [dsBrowse,dsEdit,dsInsert]) Then
+    Exit;
+
+  if DMReversaoFaturasPagas.cdsFaturasEmAbertoTotalDescontoReembolso.IsNull Then
+    Exit;
+
+  Result:= StrToFloat(VarToStr(DMReversaoFaturasPagas.cdsFaturasEmAbertoTotalDescontoReembolso.Value));
+------------------------------------------------------------------------------------------------------------------------------------------------  
+
+
+----create table------------------------------------------------------------------------------------------
+CREATE TABLE COM_CARTEIRA_CLIENTE_TMP AS SELECT * FROM COM_CARTEIRA_CLIENTE
+----------------------------------------------------------------------------------------------------------
+
+
+
+----find key composto-------------------------------------------------------------------------------------
+If (cdsCepsExportados.FindKey([ODS_CEPSCEP_INI.AsFloat,ODS_CEPSCEP_FIM.AsFloat])) then
+
+setar a propriedade: IndexFieldNames para CEP_INI;CEP_FIM
+----------------------------------------------------------------------------------------------------------
+  
+
+
+----locate composto---------------------------------------------------------------------------------------
+DM.DM_DataBase.Filial.Locate('ID_EMPRESA;ID_FILIAL', VarArrayOf([Tb_UsuariosID_EMPRESA_DEFAULT.AsFloat,Tb_UsuariosID_FILIAL_DEFAULT.AsFloat]), []);
+----------------------------------------------------------------------------------------------------------
+  
+
+---------------------------------------------------------------------------------------------------
+
+
+
+grid
+------------------------------------------------------------------------------------------------------------------
+
+delphi 6 
+acessar valor da linha selecionada
+dxDBGrid_ItensRc.FocusedNode.Values[4]
+
+
+
+----Exemplo COMPOUND TRIGGER / Trigger Composta-------------------------------------------------------------------
+http://glufke.net/oracle/viewtopic.php?f=2&t=5125
+------------------------------------------------------------------------------------------------------------------
+
+
+
+----inserir ID num combo-------------------------------------------------------------------------------------------
+
+procedure TfrmReversaoFaturasPagas.SetFormasReembolso;	
+var
+  Descricao:string;
+  Id:integer;
+begin
+  with DMReversaoFaturasPagas.odsFormasReembolso do
+  begin
+    First;
+
+    cmbFormaReembolso.Items.Clear;
+    while not Eof do
+    begin
+      ID:= FieldByName('FT_SOL_TP_APLIC_ID').AsInteger;
+      Descricao:= FieldByName('FT_SOL_TP_APLIC_DESCR').AsString;
+      cmbFormaReembolso.Items.AddObject( Descricao, TObject(ID));
+      Next;
+    end;
+   end;
+  cmbFormaReembolso.ItemIndex:=0;
+end;
+
+
+
+function TfrmReversaoFaturasPagas.GetFormaReembolso: Integer;
+begin
+  Result:= Integer( cmbFormaReembolso.Items.Objects[cmbFormaReembolso.ItemIndex ] );
+end;
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+----Formatações---------------------------------------------------------------------------------------------------
+
+FormatFloat('#,0.00',fValor);
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Exceções Delphi
+------------------------------------------------------------------------------------------------------------------
+
+      if not (E  is EAbort) Then
+      begin
+        MessageDlg('Erro ao gerar Desconto em Faturas' + #13 + e.Message, mtError, [mbOK], 0);
+        Abort;
+      end;
+
+
+
+	    //Centralizando form
+  Left := (GetSystemMetrics(SM_CXSCREEN) - Width) div 2;
+  Top := (GetSystemMetrics(SM_CYSCREEN) - Height) div 2;
+------------------------------------------------------------------------------------------------------------------
+  
+
+
+
+
+
+
+
+exemplos de classe delphi
+------------------------------------------------------------------------------------------------------------------
+type
+  TImportacaoPreFatura = class
+  private
+
+  public
+    Arquivo: string;
+    ArquivoJaImportado: Boolean;
+    Lote: TCRBTxtFile;
+    procedure AbrirArquivo; virtual; abstract;
+    procedure ProcessarArquivo; virtual; abstract;
+    function GetQtdeRegistros: Integer;
+  end;
+
+  TImportacaoLuxotica = class(TImportacaoPreFatura)
+  public
+    procedure AbrirArquivo; override;
+    procedure ProcessarArquivo; override;
+  end;
+
+  TImportacaoAMZ = class(TImportacaoPreFatura)
+  public
+    procedure AbrirArquivo; override;
+    procedure ProcessarArquivo; override;
+  end;
+------------------------------------------------------------------------------------------------------------------
+  
+ 
+
+
+***Exportar Grid da DevExpress
+------------------------------------------------------------------------------------------------------------------
+  try
+    Wait(self,'Exportando Informações');
+    Salvar.FileName := Self.Caption + '_' + FormatDateTime('ddmmyyhhnn', Now);
+    Salvar.Filter := 'Excel files (*.xls)|*.XLS';
+
+    if Salvar.Execute then
+    begin
+      Application.ProcessMessages;
+      ExportGridToExcel(Salvar.FileName, cxGrid2,True, True);
+      Msg('Arquivo Gerado com sucesso!');
+      edtData.SetFocus;
+      fdqBusca.First;
+    end;
+
+  finally
+    WaitEnd(self);
+  end;
+------------------------------------------------------------------------------------------------------------------
+
+  
+  
+  
+Imprimir Grid da Dev
+------------------------------------------------------------------------------------------------------------------
+Deve colocar o componente dxComponentPrinter1
+Neste componente colocamos um link para a Grid
+e o codigo    dxComponentPrinter1Link1.Preview(true); para imprimir  
+------------------------------------------------------------------------------------------------------------------
+
+
+Criptografia
+
+uses System.NetEncoding
+TNetEncoding.Base64.Encode
+TNetEncoding.Base64.Decode
+https://github.com/monde-sistemas/delphi-aws-ses/blob/master/BuildQueryParameters.pas
+
+
+
+
+
+
+Acessando os valores selecionados de um TCXGrid
+procedure ValoreSelecionados();
+var
+  I : Integer;
+  Selecionados: Integer;
+  Row : Integer;
+begin
+  Memo1.Clear;
+  Selecionados := tblDados.ViewData.DataController.GetSelectedCount;
+  for I := 0 to Selecionados - 1 do
+  begin
+    Row := tblDados.ViewData.DataController.GetSelectedRowIndex(I);
+    Memo1.Lines.Add(tblDados.ViewData.Records[Row].Values[tblDados.GetColumnByFieldName('Nome').Index]);
+  end;
+end;
+
+
+
+Repositorios
+https://github.com/monde-sistemas
+https://github.com/gmurt
+
+
+
+
+Forma correta de Aninhar tratamento de exceções usando Try, Except, Finally:
+
+Try
+  Try
+    ...
+  Except
+    ...
+  End;
+Finally
+  ...
+End; 
+
+
+
+Timer
+1 segundo é igual a 1000 milésimos
+
+1000 x 60 = 60000
+
+1 minuto =  a 60000 milésimos!
+2 minuto =  a 120000 milésimos!
+
+1hr	= 3600000
+5hr = 18000000
+
+
+
+60000 x 30 = 1800000
+
+30 minutos é igual a 1800000 milésimos.
+
+
+
+
+
+----CopyDataset----------------------------------------------------------------------------------------------------
+http://docwiki.embarcadero.com/Libraries/Seattle/en/FireDAC.Comp.DataSet.TFDCopyDataSetOptions
+
+coAggregatesCopy	Copia o conjunto de dados fonte agrega configuração para o conjunto de dados atual.
+coAggregatesReset	Repõe a configuração agregados do conjunto de dados atual.
+coAppend	Acrescenta um novo registro para o conjunto de dados atual.
+coCalcFields	Copia os campos calculados a partir do conjunto de dados de origem para o conjunto de dados atual.
+coConstraintsCopy	Cópias a fonte restrições de conjunto de dados de configuração para o conjunto de dados atual.
+coConstraintsReset	Repõe a configuração restrições do conjunto de dados atual.
+coDelete	Se um registro foi excluído do conjunto de dados de origem, localiza o registro correspondente no conjunto de dados atual e exclui-lo.
+coEdit	Localiza o registro correspondente no conjunto de dados atual, usando os valores de campo de chave primária.
+coIndexesCopy	Cópias a fonte índices de conjunto de dados de configuração para o conjunto de dados atual.
+coIndexesReset	Repõe a configuração índices do conjunto de dados atual.
+coRefresh	Atualiza o conjunto de dados atual usando registros do conjunto de dados de origem.
+coRestart	Define o conjunto de dados de origem para o início.
+coStructure	Copia a estrutura do conjunto de dados de origem para o conjunto de dados atual.
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Unisolution
+try
+    MostraMensagem('Buscando Dados');
+    try
+      qrPesquisa.Close;
+      qrPesquisa.Open;
+    Except
+      MsgErro := 'Erro na busca dos dados';
+      Raise;
+    end;
+  finally
+    ApagaMensagem;
+  end; 
+  
+exemplo de filtro
+BalFerIntegraALLMonitorFiltro  
+
+
+
+function TfrmPlanejTanque.LPad(S: string; Ch: Char; Len: Integer): string;
+var
+  RestLen: Integer;
+begin   Result  := S;
+  RestLen := Len - Length(s);
+
+  if RestLen < 1 then
+    Exit;
+
+  Result := S + StringOfChar(Ch, RestLen);
+end;
+
+function TfrmPlanejTanque.RPad(S: string; Ch: Char; Len: Integer): string;
+var
+  RestLen: Integer;
+begin   Result  := S;
+  RestLen := Len - Length(s);
+
+  if RestLen < 1 then
+    Exit;
+
+  Result := StringOfChar(Ch, RestLen) + S;
+end;
+
