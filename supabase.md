@@ -21,7 +21,8 @@
 13. [Quando Usar e Quando Evitar](#13-quando-usar-e-quando-evitar)
 14. [Alternativas Modernas](#14-alternativas-modernas)
 15. [Ambiente Local e Self-Hosting com Docker](#15-ambiente-local-e-self-hosting-com-docker)
-16. [Resumo Final](#16-resumo-final)
+16. [Supabase CLI vs Flyway vs Docker](#16-supabase-cli-vs-flyway-vs-docker)
+17. [Resumo Final](#17-resumo-final)
 
 ---
 
@@ -1508,6 +1509,53 @@ supabase db reset
 supabase db push
 ```
 
+### 11.6 Supabase CLI como ferramenta principal de migrations
+
+Para projetos baseados em Supabase, o fluxo mais natural e recomendável e usar o **Supabase CLI** como fonte principal de verdade do schema.
+
+**Por que faz sentido:**
+- entende o ecossistema Supabase nativamente
+- integra migrations, `seed.sql`, Edge Functions e tipos gerados
+- funciona muito bem com Docker no ambiente local
+- evita depender de SQL solto no dashboard como processo principal
+
+**Estrutura recomendada:**
+
+```text
+meu-projeto/
+├── src/
+├── supabase/
+│   ├── config.toml
+│   ├── migrations/
+│   │   ├── 20260414191500_create_prompt_manager_schema.sql
+│   │   ├── 20260414192000_copy_public_to_prompt_manager.sql
+│   │   └── 20260414192500_prompt_manager_rls.sql
+│   ├── functions/
+│   └── seed.sql
+└── package.json
+```
+
+**Fluxo prático:**
+
+```bash
+# iniciar ambiente local
+supabase start
+
+# criar nova migration versionada
+supabase migration new create_prompt_manager_schema
+
+# testar tudo do zero localmente
+supabase db reset
+
+# vincular ao projeto remoto
+supabase link --project-ref SEU_PROJECT_REF
+
+# aplicar no projeto remoto
+supabase db push
+```
+
+Esse modelo fica conceitualmente próximo de um projeto backend com migrations versionadas, mas usando a ferramenta oficial da plataforma.
+
 ---
 
 ## 12. Limitações e Armadilhas
@@ -1916,7 +1964,95 @@ curl http://localhost:8000/functions/v1/minha-funcao \
 
 ---
 
-## 16. Resumo Final
+## 16. Supabase CLI vs Flyway vs Docker
+
+Essas ferramentas nao competem diretamente no mesmo nivel. Elas resolvem problemas diferentes e podem coexistir.
+
+### 16.1 O papel de cada uma
+
+| Ferramenta | Papel principal | Melhor uso |
+|---|---|---|
+| **Supabase CLI** | Tooling nativo do ecossistema Supabase | migrations, ambiente local, functions, tipos, seed |
+| **Flyway** | Versionamento e execucao de migrations SQL | times com cultura forte de backend/Java e pipeline SQL-first |
+| **Docker** | Runtime local / conteinerizacao | subir stack local do Supabase ou self-hosting |
+
+### 16.2 Quando usar apenas Supabase CLI
+
+Use apenas o Supabase CLI quando:
+- o banco principal e Supabase/Postgres
+- o projeto usa recursos nativos como Auth, RLS, Edge Functions e seed local
+- voce quer o caminho mais simples e suportado pela plataforma
+- o ambiente local em Docker ja atende sua necessidade
+
+Esse e o melhor padrao para a maioria dos projetos frontend + Supabase.
+
+### 16.3 Quando Flyway ainda faz sentido
+
+Flyway continua fazendo sentido quando:
+- seu modelo mental e de backend Java com migrations rigidamente controladas
+- voce quer padronizar o mesmo processo em projetos Java e Supabase
+- o time ja usa convenções como `V1__`, `V2__`, `R__` e quer manter consistencia
+- o banco sera gerenciado por pipeline SQL corporativo fora do workflow nativo do Supabase
+
+**Pontos de atencao ao usar Flyway com Supabase:**
+- conecte via PostgreSQL, nao via REST API
+- foque nos schemas da aplicacao (`public`, `app`, `prompt_manager` etc.)
+- evite tentar gerenciar internals do Supabase (`auth`, `storage`) sem necessidade
+- mantenha claro qual ferramenta e a fonte oficial da verdade
+
+### 16.4 Comparativo prático para dev Java
+
+| Tema | Supabase CLI | Flyway |
+|---|---|---|
+| Criar migration | `supabase migration new nome` | criar `Vx__descricao.sql` |
+| Aplicar migrations | `supabase db push` | `flyway migrate` |
+| Resetar ambiente local | `supabase db reset` | recriar banco + `flyway migrate` |
+| Seed local | `supabase/seed.sql` | migration repeatable ou script separado |
+| Integração com features Supabase | nativa | indireta |
+| Familiar para time Java | media | alta |
+
+Para um dev backend Java, o Supabase CLI entrega um fluxo parecido com Flyway, mas mais alinhado com a plataforma.
+
+### 16.5 Docker no contexto certo
+
+Docker nao substitui Flyway nem Supabase CLI.
+
+Use Docker para:
+- rodar o stack local do Supabase via `supabase start`
+- self-hosting com Docker Compose
+- ambientes reproduziveis em desenvolvimento
+
+Nao use Docker sozinho como estrategia de migrations. Ele sobe os servicos, mas nao organiza o versionamento do schema por si so.
+
+### 16.6 Recomendação objetiva
+
+Para projetos Supabase mantidos por um desenvolvedor com background forte em Java:
+
+1. **Padrão recomendado:** Supabase CLI + Docker
+2. **Opcional:** Flyway apenas se houver necessidade real de padronizacao com projetos Java
+3. **Evitar:** usar dashboard/manual SQL como fonte principal de schema em projetos que evoluem com frequencia
+
+### 16.7 Estratégia recomendada para múltiplas POCs
+
+Se voce pretende ter varias POCs no mesmo projeto Supabase:
+- usar **um schema por POC**
+- versionar a criacao de cada schema com migration
+- testar localmente com CLI + Docker
+- aplicar remotamente com `supabase db push`
+
+Exemplo:
+
+```text
+supabase/migrations/
+  20260414191500_create_prompt_manager_schema.sql
+  20260414192000_copy_public_to_prompt_manager.sql
+  20260414192500_prompt_manager_rls.sql
+  20260415100000_create_outro_poc_schema.sql
+```
+
+---
+
+## 17. Resumo Final
 
 ### O que o Supabase oferece:
 
@@ -1989,4 +2125,3 @@ Usar como serviço gerenciado na nuvem?
 ---
 
 *Documentação gerada com base na documentação oficial do Supabase (supabase.com/docs). Última revisão: abril/2026.*
-

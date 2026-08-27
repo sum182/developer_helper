@@ -18,8 +18,9 @@
 8. [Implementar Auth no React](#8-implementar-auth-no-react)
 9. [CRUD com supabase-js](#9-crud-com-supabase-js)
 10. [Conexão via Cliente de Banco (DataGrip, DBeaver, psql)](#10-conexão-via-cliente-de-banco-datagrip-dbeaver-psql)
-11. [Checklist Completo](#11-checklist-completo)
-12. [Links Rápidos do Projeto](#12-links-rápidos-do-projeto)
+11. [Supabase CLI, Flyway e Docker](#11-supabase-cli-flyway-e-docker)
+12. [Checklist Completo](#12-checklist-completo)
+13. [Links Rápidos do Projeto](#13-links-rápidos-do-projeto)
 
 ---
 
@@ -632,7 +633,96 @@ postgresql://postgres.fwkpzfmguweykwkpqald:[SENHA]@aws-1-sa-east-1.pooler.supaba
 
 ---
 
-## 11. Checklist Completo
+## 11. Supabase CLI, Flyway e Docker
+
+### 11.1 Recomendação prática
+
+Para projetos React/TypeScript conectados ao Supabase, o melhor padrão tende a ser:
+
+- **Supabase CLI** como ferramenta oficial de migrations e ambiente local
+- **Docker** como runtime local da stack Supabase
+- **Flyway** apenas se houver necessidade de alinhar o processo com projetos Java/backend do time
+
+### 11.2 Setup mínimo na máquina
+
+| Ferramenta | Obrigatória | Uso |
+|---|---|---|
+| **Supabase CLI** | Sim, se for usar migrations nativas | criar migrations, resetar banco, push remoto |
+| **Docker Desktop** | Sim, para ambiente local completo | rodar Postgres, Studio, Auth, Storage, Realtime |
+| **Flyway** | Opcional | padronização com times Java e pipelines SQL-first |
+
+### 11.3 Fluxo recomendado com Supabase CLI + Docker
+
+```bash
+# inicializar estrutura local
+supabase init
+
+# subir stack local completa
+supabase start
+
+# criar migration nova
+supabase migration new create_prompt_manager_schema
+
+# testar migrations + seed do zero
+supabase db reset
+
+# vincular ao projeto remoto
+supabase link --project-ref fwkpzfmguweykwkpqald
+
+# aplicar migrations pendentes no remoto
+supabase db push
+```
+
+### 11.4 Estrutura recomendada no repositório
+
+```text
+supabase/
+  config.toml
+  migrations/
+    20260414191500_create_prompt_manager_schema.sql
+    20260414192000_copy_public_to_prompt_manager.sql
+    20260414192500_prompt_manager_rls.sql
+  seed.sql
+  functions/
+```
+
+### 11.5 Onde o Flyway entra
+
+Se voce vem de Java e quer um workflow parecido com backend tradicional, o Flyway pode ser usado para controlar o schema do PostgreSQL do Supabase.
+
+**Quando vale a pena:**
+- varios projetos Java ja usam Flyway
+- o time quer manter convencoes `V1__`, `V2__`, `R__`
+- existe pipeline corporativo centralizado de banco
+
+**Quando nao vale:**
+- o projeto e essencialmente Supabase-first
+- voce quer reduzir ferramentas e seguir o caminho nativo da plataforma
+- Auth, RLS, seed, functions e ambiente local giram em torno do CLI
+
+### 11.6 Comparativo direto
+
+| Tema | Supabase CLI | Flyway |
+|---|---|---|
+| Experiencia nativa Supabase | Alta | Baixa |
+| Familiaridade para Java backend | Media | Alta |
+| Migrations SQL versionadas | Sim | Sim |
+| Ambiente local integrado | Sim, com Docker | Nao |
+| Edge Functions / tipos / seed | Sim | Nao |
+| Melhor escolha para este tipo de projeto | Sim | Opcional |
+
+### 11.7 Recomendação para este guia
+
+Para o caso do `prompt-manager` e para futuras POCs:
+
+1. usar `Supabase CLI + Docker` como padrão oficial
+2. versionar cada mudança de schema em `supabase/migrations/`
+3. manter `docs/*.sql` como documentação e referência, nao como fonte principal de verdade
+4. considerar Flyway apenas se a prioridade for unificar o processo com projetos Java
+
+---
+
+## 12. Checklist Completo
 
 ### Supabase Dashboard
 - [ ] Projeto criado com região `sa-east-1`
@@ -663,9 +753,19 @@ postgresql://postgres.fwkpzfmguweykwkpqald:[SENHA]@aws-1-sa-east-1.pooler.supaba
 - [ ] `user_id` sendo preenchido nos inserts
 - [ ] Logout funcionando
 
+### Supabase CLI / Docker
+- [ ] `supabase --version` funcionando na máquina
+- [ ] Docker Desktop instalado e em execução
+- [ ] `supabase init` executado no projeto
+- [ ] `supabase start` sobe o ambiente local
+- [ ] `supabase migration new ...` gera arquivos versionados em `supabase/migrations/`
+- [ ] `supabase db reset` recria o banco local com sucesso
+- [ ] `supabase link --project-ref ...` configurado para o projeto remoto
+- [ ] `supabase db push` aplicado com sucesso no remoto
+
 ---
 
-## 12. Links Rápidos do Projeto
+## 13. Links Rápidos do Projeto
 
 | Recurso | URL |
 |---|---|
