@@ -85,3 +85,7 @@ O ID de cada extensão aparece na sua página no Marketplace e também na aba de
 - [VS Code CLI Documentation](https://code.visualstudio.com/docs/editor/command-line)
 - [VS Code Profiles](https://code.visualstudio.com/docs/editor/profiles)
 - [VS Code Marketplace](https://marketplace.visualstudio.com/vscode)
+
+
+
+teste
